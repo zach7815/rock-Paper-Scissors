@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #26096e;
+  color: #fff;
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+}
+
+.headline {
+  font-weight: 900;
+  font-size: 3rem;
+}
+
+.outerWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
+.innerWrapper {
+  display: flex;
+  gap: 3rem;
+
+  align-items: baseline;
+}
+
+.initialInstr,
+.headline,
+.optHead {
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.optHead {
+  font-size: 2rem;
+}
+.papTitle {
+  position: relative;
+  left: 1.5rem;
+}
+
+.rocCont {
+  animation: bounce1 3s ease-in-out infinite;
+}
+.papCont {
+  animation: bounce2 3s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+.scisCont {
+  animation: bounce3 3s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce1 {
+  20% {
+    transform: translateY(-10%);
+  }
+}
+
+@keyframes bounce2 {
+  20% {
+    transform: translateY(-15%);
+  }
+}
+
+@keyframes bounce3 {
+  25% {
+    transform: translateY(-20%);
+  }
+}
+
+/* media queries */
+
+@media screen and (max-width: 810px) {
+  img {
+    width: 80%;
+  }
+
+  .innerWrapper {
+    gap: 1rem;
+  }
+}
