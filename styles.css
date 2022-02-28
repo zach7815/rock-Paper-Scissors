@@ -84,3 +84,25 @@ body {
     gap: 1rem;
   }
 }
+
+@media screen and (max-width: 428px) {
+  .symbolCard,
+  .symbol {
+    width: 30%;
+  }
+
+  .outerWrapper {
+    margin: 2rem;
+  }
+
+  .innerWrapper {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  .scisCont,
+  .rocCont,
+  .papCont {
+    animation: none;
+  }
+}
