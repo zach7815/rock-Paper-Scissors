@@ -23,7 +23,6 @@ body {
 .innerWrapper {
   display: flex;
   gap: 3rem;
-
   align-items: baseline;
 }
 
@@ -43,6 +42,10 @@ body {
   left: 1.5rem;
 }
 
+.symbol {
+  width: 80%;
+}
+
 .rocCont {
   animation: bounce1 3s ease-in-out infinite;
 }
@@ -59,17 +62,27 @@ body {
   20% {
     transform: translateY(-10%);
   }
+  50% {
+    transform: translateY(0);
+  }
 }
 
 @keyframes bounce2 {
   20% {
     transform: translateY(-15%);
   }
+
+  50% {
+    transform: translateY(0);
+  }
 }
 
 @keyframes bounce3 {
   25% {
     transform: translateY(-20%);
+  }
+  50% {
+    transform: translateY(0);
   }
 }
 
@@ -85,21 +98,123 @@ body {
   }
 }
 
-@media screen and (max-width: 428px) {
-  .symbolCard,
-  .symbol {
-    width: 30%;
+@media only screen and (max-width: 768px) {
+  [data-alttext] > span {
+    display: none;
   }
 
-  .outerWrapper {
-    margin: 2rem;
+  [data-alttext]::before {
+    content: attr(data-alttext);
   }
+}
 
+@media screen and (max-width: 600px) {
   .innerWrapper {
     flex-direction: column;
     text-align: center;
     align-items: center;
   }
+  .symbolCard,
+  .symbol {
+    width: 60%;
+  }
+  .rocCont {
+    animation: vibrate1 4s ease-in-out infinite;
+  }
+  .papCont {
+    animation: vibrate2 4s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
+  .scisCont {
+    animation: vibrate3 4s ease-in-out infinite;
+    animation-delay: 2.5s;
+  }
+
+  @keyframes vibrate1 {
+    0%,
+    4%,
+    8%,
+    12%,
+    16%,
+    20%,
+    24%,
+    28%,
+    32% {
+      transform: rotate(-3deg);
+    }
+    2%,
+    6%,
+    10%,
+    14%,
+    18%,
+    22%,
+    26%,
+    30% {
+      transform: rotate(3deg);
+    }
+    33%,
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes vibrate2 {
+    0%,
+    4%,
+    8%,
+    12%,
+    16%,
+    20%,
+    24%,
+    28%,
+    32% {
+      transform: rotate(-3deg);
+    }
+    2%,
+    6%,
+    10%,
+    14%,
+    18%,
+    22%,
+    26%,
+    30% {
+      transform: rotate(3deg);
+    }
+    33%,
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes vibrate3 {
+    0%,
+    4%,
+    8%,
+    12%,
+    16%,
+    20%,
+    24%,
+    28%,
+    32% {
+      transform: rotate(-3deg);
+    }
+    2%,
+    6%,
+    10%,
+    14%,
+    18%,
+    22%,
+    26%,
+    30% {
+      transform: rotate(3deg);
+    }
+    33%,
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}
+@media screen and (max-width: 428px) {
   .scisCont,
   .rocCont,
   .papCont {
