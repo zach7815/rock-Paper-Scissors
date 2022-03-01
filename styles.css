@@ -26,6 +26,10 @@ body {
   align-items: baseline;
 }
 
+.initialInstr {
+  display: block;
+}
+
 .initialInstr,
 .headline,
 .optHead {
