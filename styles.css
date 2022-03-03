@@ -98,17 +98,14 @@ body {
   }
 
   .innerWrapper {
-    gap: 1rem;
+    gap: 0;
   }
-}
-
-@media only screen and (max-width: 768px) {
-  [data-alttext] > span {
+  .desktopText {
     display: none;
   }
 
-  [data-alttext]::before {
-    content: attr(data-alttext);
+  [alternateText]::after {
+    content: attr(alternateText);
   }
 }
 
@@ -120,8 +117,12 @@ body {
   }
   .symbolCard,
   .symbol {
-    width: 60%;
+    width: 55%;
   }
+
+  /* .outerWrapper {
+    height: 65vh;
+  } */
   .rocCont {
     animation: vibrate1 4s ease-in-out infinite;
   }
@@ -134,7 +135,7 @@ body {
     animation-delay: 2.5s;
   }
 
-  @keyframes vibrate1 {
+  /* @keyframes vibrate1 {
     0%,
     4%,
     8%,
@@ -216,12 +217,18 @@ body {
     100% {
       transform: rotate(0deg);
     }
+  } */
+}
+@media screen and (max-width: 390px) {
+  .symbolCard,
+  .symbol {
+    width: 50%;
   }
 }
-@media screen and (max-width: 428px) {
-  .scisCont,
-  .rocCont,
-  .papCont {
-    animation: none;
+
+@media screen and (max-width: 375px) {
+  .symbolCard,
+  .symbol {
+    width: 40%;
   }
 }
