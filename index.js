@@ -2,7 +2,14 @@ let body=document.querySelector("body");
 const instruction = document.querySelector(".instrWrapper");
 let interactions= ["click", "keydown"];
 
-interactions.forEach(evt=>body.addEventListener(evt, gameSequence, false))
+interactions.forEach(evt=>body.addEventListener(evt, handler, false))
+
+
+function handler(e){
+interactions.forEach(e=> body.removeEventListener(e, handler))
+gameSequence()
+
+}
 
 
 function gameSequence(){
@@ -59,7 +66,7 @@ let   fiveRound=document.createElement("button");
 
 
 function setSuddenDeath(){
-alert("sudden death round was chosen")
+  displayScore()
 
 
 };
@@ -84,7 +91,7 @@ displayScore()
 }
 
 function setFiveRounds(){
-  alert("five  rounds was chosen")
+  displayScore()
   
 
 }
