@@ -26,11 +26,11 @@ body {
   align-items: baseline;
 }
 
-.initialInstr {
+.initGame {
   display: block;
 }
 
-.initialInstr,
+.initGame,
 .headline,
 .optHead {
   text-align: center;
@@ -49,6 +49,8 @@ body {
 .symbol {
   width: 80%;
 }
+
+/* starting animation */
 
 .rocCont {
   animation: bounce1 3s ease-in-out infinite;
@@ -100,15 +102,133 @@ body {
   .innerWrapper {
     gap: 0;
   }
-  .desktopText {
+  .initGame span {
     display: none;
   }
 
-  [alternateText]::after {
-    content: attr(alternateText);
+  .initGame::after {
+    content: "tap to continue";
   }
 }
 
+/* JS classes */
+
+.stopAnimation {
+  animation: none;
+}
+
+/* button creation */
+
+.suddenDeath {
+  box-shadow: inset 0px 1px 0px 0px #f7c5c0;
+  background: linear-gradient(to bottom, #fc8d83 5%, #ff1100 100%);
+  background-color: #fc8d83;
+  border-radius: 6px;
+  border: 1px solid #d83526;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #b23e35;
+}
+.suddenDeath:hover {
+  background: linear-gradient(to bottom, #ff1100 5%, #fc8d83 100%);
+  background-color: #ff1100;
+}
+.suddenDeath:active {
+  position: relative;
+  top: 1px;
+}
+
+.threeRounds {
+  box-shadow: inset 0px 1px 0px 0px #443fd9;
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  background-color: #89c403;
+  border-radius: 6px;
+  border: 1px solid #a6e048;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #528009;
+}
+.threeRounds:hover {
+  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+  background-color: #77a809;
+}
+.threeRounds:active {
+  position: relative;
+  top: 1px;
+}
+
+.fiveRounds {
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border-radius: 6px;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffee66;
+}
+.fiveRounds:hover {
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
+}
+.fiveRounds:active {
+  position: relative;
+  top: 1px;
+}
+
+.roundSelection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* JS classes: display score counter score counter */
+
+.outterScoreWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.scoreContainer {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.toggleScoreDisplay {
+  display: none;
+}
+
+.circle {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: solid 2px;
+}
+
+.toggleBG {
+  background-color: green;
+}
+
+/* media queries */
 @media screen and (max-width: 600px) {
   .innerWrapper {
     flex-direction: column;
@@ -132,10 +252,10 @@ body {
   }
   .scisCont {
     animation: vibrate3 4s ease-in-out infinite;
-    animation-delay: 2.5s;
+    animation-delay: 2.8s;
   }
 
-  /* @keyframes vibrate1 {
+  @keyframes vibrate1 {
     0%,
     4%,
     8%,
@@ -217,7 +337,7 @@ body {
     100% {
       transform: rotate(0deg);
     }
-  } */
+  }
 }
 @media screen and (max-width: 390px) {
   .symbolCard,
