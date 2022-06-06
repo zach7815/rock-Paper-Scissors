@@ -1,8 +1,9 @@
-let body=document.querySelector("body");
+const body=document.querySelector("body");
 const instruction = document.querySelector(".instrWrapper");
-let interactions= ["click", "keydown"];
-
+const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false))
+
+
 
 
 function handler(e){
@@ -38,7 +39,17 @@ const createSuddenDeathBtn =()=>{
 let  suddenDeathR=document.createElement("button");
  suddenDeathR.innerText="One Round";
  suddenDeathR.classList.add("suddenDeath");
-suddenDeathR.addEventListener("click",setSuddenDeath);
+ suddenDeathR.id="suddenDeath";
+suddenDeathR.addEventListener("click",
+function(event){
+  if(event.target.matches("#suddenDeath")){
+    alert("suddenDeath Chosen");
+  }
+}
+  
+
+
+);
 return suddenDeathR;
 
 };
@@ -48,7 +59,14 @@ const createThreeRndBtn =()=> {
 let   threeRound=document.createElement("button");
   threeRound.innerText="Three Rounds";
   threeRound.classList.add("threeRounds");
- threeRound.addEventListener("click", setThreeRounds);
+  threeRound.id="threeRounds";
+ threeRound.addEventListener("click",
+ function(event){
+  if(event.target.matches("#threeRounds")){
+    alert("threeRounds Chosen");
+  }
+}
+ )
       return threeRound;
 };
 
@@ -58,10 +76,25 @@ const createFiveRndBtn =()=>{
 let   fiveRound=document.createElement("button");
   fiveRound.innerText="Five Rounds";
   fiveRound.classList.add("fiveRounds");
-  fiveRound.addEventListener("click", setFiveRounds);
+ fiveRound.id="fiveRounds";
+  fiveRound.addEventListener("click", 
+  function(event){
+    if(event.target.matches("#fiveRounds")){
+      alert("fiveRounds Chosen");
+    }
+  }
+  
+  );
   return fiveRound;
 
 };
+
+function detectRounds(event){
+  if(event.target.matches("#suddenDeath")){
+    alert("sudden Death was chosen")
+  }}
+
+
 
 
 
@@ -75,11 +108,12 @@ const displayScore=()=>{
 let scoreDisplay = document.querySelectorAll(".scoreContainer");
 let scoreDisplayWrap = document.querySelector(".outterScoreWrap");
 scoreDisplay.forEach(el=> el.classList.toggle("toggleScoreDisplay"));
-scoreDisplayWrap.style.justifyContent="space-between";
-let selectSymbol= document.createElement("h2");
-selectSymbol.innerHTML="Choose your symbol";
-let buttonContainer=document.querySelector(".roundSelection");
-instruction.replaceChild(selectSymbol, buttonContainer);
+let circle = document
+// scoreDisplayWrap.style.justifyContent="space-between";
+// let selectSymbol= document.createElement("h2");
+// selectSymbol.innerHTML="Choose your symbol";
+// let buttonContainer=document.querySelector(".roundSelection");
+// instruction.replaceChild(selectSymbol, buttonContainer);
 
 
 
@@ -95,3 +129,4 @@ function setFiveRounds(){
   
 
 }
+
