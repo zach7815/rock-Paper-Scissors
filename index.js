@@ -3,7 +3,25 @@ const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false))
 
+const headings= {
+  h1: document.querySelector(".headline"),
+ h2: document.createElement("h2"),
+ scoreDisplay:document.querySelectorAll(".scoreContainer"),
+ scoreDisplayWrap:document.querySelector(".outterScoreWrap"),
+ scoreCircle: document.createElement("div"),
+ instrWrap: document.querySelector(".instrWrapper")
+}
 
+const animations = {
+  selectSymbol: ()=>{
+    const symbol = document.querySelectorAll(".symbolCard");
+    symbol.forEach(element=>element.classList.add("symbolZoom"));
+    symbol.forEach(element=>element.addEventListener("click", (event)=>{
+      alert(`${event.target.id }was clicked!`)
+      console.log(event.target.id)
+    }))
+  }
+}
 
 
 function handler(e){
@@ -42,9 +60,7 @@ let  suddenDeathR=document.createElement("button");
  suddenDeathR.id="suddenDeath";
 suddenDeathR.addEventListener("click",
 function(event){
-  if(event.target.matches("#suddenDeath")){
-    alert("suddenDeath Chosen");
-  }
+  detectRounds(event)
 }
   
 
@@ -62,9 +78,7 @@ let   threeRound=document.createElement("button");
   threeRound.id="threeRounds";
  threeRound.addEventListener("click",
  function(event){
-  if(event.target.matches("#threeRounds")){
-    alert("threeRounds Chosen");
-  }
+  detectRounds(event)
 }
  )
       return threeRound;
@@ -79,9 +93,7 @@ let   fiveRound=document.createElement("button");
  fiveRound.id="fiveRounds";
   fiveRound.addEventListener("click", 
   function(event){
-    if(event.target.matches("#fiveRounds")){
-      alert("fiveRounds Chosen");
-    }
+    detectRounds(event)
   }
   
   );
@@ -91,42 +103,60 @@ let   fiveRound=document.createElement("button");
 
 function detectRounds(event){
   if(event.target.matches("#suddenDeath")){
-    alert("sudden Death was chosen")
-  }}
-
-
-
-
-
-function setSuddenDeath(){
-  displayScore()
-
-
-};
-
-const displayScore=()=>{
-let scoreDisplay = document.querySelectorAll(".scoreContainer");
-let scoreDisplayWrap = document.querySelector(".outterScoreWrap");
-scoreDisplay.forEach(el=> el.classList.toggle("toggleScoreDisplay"));
-let circle = document
-// scoreDisplayWrap.style.justifyContent="space-between";
-// let selectSymbol= document.createElement("h2");
-// selectSymbol.innerHTML="Choose your symbol";
-// let buttonContainer=document.querySelector(".roundSelection");
-// instruction.replaceChild(selectSymbol, buttonContainer);
-
-
-
+    setSuddenDeath()
+    
+  }
+  else if (event.target.matches("#threeRounds")){
+    setThreeRounds()
+  }
+  else {setFiveRounds()}
 }
 
+
+
+
+
+const setSuddenDeath = ()=>{
+  headings.h1.innerHTML="Sudden Death!";
+  headings.h1.classList.add("suddenDH1");
+  headings.h2.innerHTML="Choose your symbol";
+  headings.h2.classList.add("selectSymbol");
+  headings.instrWrap.firstChild.replaceWith(headings.h2);
+  animations.selectSymbol();
+}
+
+
+
+
 function setThreeRounds(){
-displayScore()
+  headings.h1.innerHTML="Round 1";
+  headings.h2.innerHTML="Choose your symbol";
+  headings.h2.classList.add("selectSymbol");
+headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
 
 function setFiveRounds(){
-  displayScore()
-  
+  headings.h1.innerHTML="Round 1";
+  headings.h2.innerHTML="Choose your symbol";
+  headings.h2.classList.add("selectSymbol");
+headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
 
+const computerChoice=()=>{
+  const optionsArr= ["rock", "paper", "scissors"];
+  const randNum= Math.floor((Math.random()*3));
+  return optionsArr[randNum];
+}
+
+
+
+const processUserChoice =(event)=>{
+const userChoice = event.target.id;
+
+if(userChoice==="rock"){
+  console.log("rock was clicked")
+}
+
+}

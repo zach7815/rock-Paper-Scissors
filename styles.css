@@ -18,6 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 75vh;
+  flex-direction: column;
 }
 
 .innerWrapper {
@@ -92,30 +93,7 @@ body {
   }
 }
 
-/* media queries */
 
-@media screen and (max-width: 810px) {
-  img {
-    width: 80%;
-  }
-
-  .innerWrapper {
-    gap: 0;
-  }
-  .initGame span {
-    display: none;
-  }
-
-  .initGame::after {
-    content: "tap to continue";
-  }
-}
-
-/* JS classes */
-
-.stopAnimation {
-  animation: none;
-}
 
 /* button creation */
 
@@ -205,6 +183,7 @@ body {
 .outterScoreWrap {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .scoreContainer {
@@ -226,6 +205,26 @@ body {
 
 .toggleBG {
   background-color: green;
+}
+
+/* JS classes */
+
+.stopAnimation {
+  animation: none;
+}
+.suddenDH1{
+  color: red;
+}
+.selectSymbol{
+  text-align: center;
+}
+
+.symbolZoom:hover
+{
+  -webkit-transform: scale(1.25); /* Safari 3-8 */
+  transform: scale(1.25); 
+  border: #89c403 solid 2px;
+  cursor: pointer;
 }
 
 /* media queries */
@@ -339,6 +338,25 @@ body {
     }
   }
 }
+
+@media screen and (max-width: 810px) {
+  img {
+    width: 80%;
+  }
+
+  .innerWrapper {
+    gap: 0;
+  }
+  .initGame span {
+    display: none;
+  }
+
+  .initGame::after {
+    content: "tap to continue";
+  }
+}
+
+
 @media screen and (max-width: 390px) {
   .symbolCard,
   .symbol {
