@@ -16,10 +16,12 @@ const animations = {
   selectSymbol: ()=>{
     const symbol = document.querySelectorAll(".symbolCard");
     symbol.forEach(element=>element.classList.add("symbolZoom"));
-    symbol.forEach(element=>element.addEventListener("click", (event)=>{
-      alert(`${event.target.id }was clicked!`)
-      console.log(event.target.id)
-    }))
+    const onClick = (event) => {
+      console.log(event.target.id);
+      processUserChoice(event)
+    }
+    window.addEventListener('click', onClick);
+    symbol.forEach(element=>element.addEventListener("click", onClick))
   }
 }
 
@@ -123,6 +125,7 @@ const setSuddenDeath = ()=>{
   headings.h2.classList.add("selectSymbol");
   headings.instrWrap.firstChild.replaceWith(headings.h2);
   animations.selectSymbol();
+  
 }
 
 
