@@ -17,7 +17,6 @@ const animations = {
     const symbol = document.querySelectorAll(".symbolCard");
     symbol.forEach(element=>element.classList.add("symbolZoom"));
     const onClick = (event) => {
-      console.log(event.target.id);
       processUserChoice(event)
     }
     window.addEventListener('click', onClick);
@@ -147,7 +146,7 @@ headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
 
-const computerChoice=()=>{
+const generateCompAns=()=>{
   const optionsArr= ["rock", "paper", "scissors"];
   const randNum= Math.floor((Math.random()*3));
   return optionsArr[randNum];
@@ -157,9 +156,40 @@ const computerChoice=()=>{
 
 const processUserChoice =(event)=>{
 const userChoice = event.target.id;
+const compChoice= generateCompAns();
+console.log(` The users choice selected was:${userChoice} `);
+console.log(` The computers choice selected was:${compChoice} `);
+switch(userChoice){
 
-if(userChoice==="rock"){
-  console.log("rock was clicked")
+case "rock":
+if(compChoice==="paper")
+console.log("paper===loss")
+else if(compChoice==="rock")
+console.log("rock===draw")
+else
+console.log("scissors===win");
+break
+
+case "paper":
+if(compChoice==="paper")
+console.log("paper===draw")
+else if(compChoice==="rock")
+console.log("rock===win")
+else
+console.log("scissors===loss");
+break
+
+case "scissors":
+if(compChoice==="paper")
+console.log("paper===win")
+else if(compChoice==="rock")
+console.log("rock===loss")
+else
+console.log("scissors===draw");
+break
+
 }
+
+
 
 }
