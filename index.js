@@ -16,11 +16,11 @@ const animations = {
   selectSymbol: ()=>{
     const symbol = document.querySelectorAll(".symbolCard");
     symbol.forEach(element=>element.classList.add("symbolZoom"));
-    const onClick = (event) => {
+    const detectUserChoice = (event) => {
       processUserChoice(event)
     }
-    window.addEventListener('click', onClick);
-    symbol.forEach(element=>element.addEventListener("click", onClick))
+    body.addEventListener('click', detectUserChoice);
+    symbol.forEach(element=>element.addEventListener("click", detectUserChoice))
   }
 }
 
@@ -39,7 +39,7 @@ function gameSequence(){
 
 
 
-
+// creates and displays round options to user
 function createRounds(){
   let roundSelection=document.createElement("div");
   roundSelection.classList.add("roundSelection");
@@ -47,7 +47,7 @@ function createRounds(){
   instruction.replaceChildren(roundSelection);
 }; 
 
-
+// ends start animation once user starts game
 const stopAnimation = ()=>{
   let symbolAnimation=document.querySelectorAll(".symbolCard");
   symbolAnimation.forEach(el=>el.classList.add("stopAnimation"));
@@ -63,12 +63,8 @@ suddenDeathR.addEventListener("click",
 function(event){
   detectRounds(event)
 }
-  
-
-
 );
 return suddenDeathR;
-
 };
 
 
@@ -102,6 +98,7 @@ let   fiveRound=document.createElement("button");
 
 };
 
+// detects how many rounds user has chosen to play e.g 1, 3 or five
 function detectRounds(event){
   if(event.target.matches("#suddenDeath")){
     setSuddenDeath()
@@ -116,7 +113,7 @@ function detectRounds(event){
 
 
 
-
+// runs and manages sudden death round 
 const setSuddenDeath = ()=>{
   headings.h1.innerHTML="Sudden Death!";
   headings.h1.classList.add("suddenDH1");
@@ -129,7 +126,7 @@ const setSuddenDeath = ()=>{
 
 
 
-
+// runs and manages three round answer
 function setThreeRounds(){
   headings.h1.innerHTML="Round 1";
   headings.h2.innerHTML="Choose your symbol";
@@ -137,15 +134,15 @@ function setThreeRounds(){
 headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
-
+// runs and manages five rounds
 function setFiveRounds(){
   headings.h1.innerHTML="Round 1";
   headings.h2.innerHTML="Choose your symbol";
   headings.h2.classList.add("selectSymbol");
 headings.instrWrap.firstChild.replaceWith(headings.h2);
-
 }
 
+// produces computer answer
 const generateCompAns=()=>{
   const optionsArr= ["rock", "paper", "scissors"];
   const randNum= Math.floor((Math.random()*3));
@@ -153,43 +150,66 @@ const generateCompAns=()=>{
 }
 
 
-
+// handles user choice
 const processUserChoice =(event)=>{
 const userChoice = event.target.id;
 const compChoice= generateCompAns();
-console.log(` The users choice selected was:${userChoice} `);
+console.log(`The users choice selected was:${userChoice}`);
 console.log(` The computers choice selected was:${compChoice} `);
-switch(userChoice){
+calculateResult(userChoice,compChoice)
+}
 
-case "rock":
-if(compChoice==="paper")
-console.log("paper===loss")
-else if(compChoice==="rock")
-console.log("rock===draw")
-else
-console.log("scissors===win");
-break
+// adds animation to gameplay to make it more interactive.
+const gameAnimation = ()=> {
+const symbolImages = {
+  rock: "./images/rock.png",
+  paper:"./images/paper.png",
+  scissors: "./images/scissors.png"
+}
+// const transitionSlide= document.createElement("div");
+// transitionSlide.classList.add("transitionSlide");
+// body.prepend(transitionSlide);
+// transitionSlide.classList.add("transitionSlideFade")
+document.querySelector(".innerWrapper").style="gap:20rem"
+document.querySelector(".papCont").style="display:none"
 
-case "paper":
-if(compChoice==="paper")
-console.log("paper===draw")
-else if(compChoice==="rock")
-console.log("rock===win")
-else
-console.log("scissors===loss");
-break
 
-case "scissors":
-if(compChoice==="paper")
-console.log("paper===win")
-else if(compChoice==="rock")
-console.log("rock===loss")
-else
-console.log("scissors===draw");
-break
+}
 
+// works out who wins comp or user
+const calculateResult = (userChoice, compChoice)=>{
+  switch(userChoice){
+
+    case "rock":
+    if(compChoice==="paper")
+    console.log("paper===loss")
+    else if(compChoice==="rock")
+    console.log("rock===draw")
+    else
+    console.log("scissors===win");
+    break
+    
+    case "paper":
+    if(compChoice==="paper")
+    console.log("paper===draw")
+    else if(compChoice==="rock")
+    console.log("rock===win")
+    else
+    console.log("scissors===loss");
+    break
+    
+    case "scissors":
+    if(compChoice==="paper")
+    console.log("paper===win")
+    else if(compChoice==="rock")
+    console.log("rock===loss")
+    else
+    console.log("scissors===draw");
+    break
+    
+    }
 }
 
 
 
-}
+

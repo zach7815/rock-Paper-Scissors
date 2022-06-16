@@ -209,6 +209,30 @@ body {
 
 /* JS classes */
 
+.transitionSlide{
+  background-color:#26096e;
+  height: 100vh;
+  z-index: 10;
+  position:fixed;
+
+  
+  
+}
+.transitionSlideFade{
+  width: 100vw;
+  transition: 2s;
+
+}
+
+.hideMiddleImg{
+  display:none;
+}
+.adjustInnerWrap{
+  gap:20rem;
+}
+
+
+
 .stopAnimation {
   animation: none;
 }
