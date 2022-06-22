@@ -1,0 +1,16 @@
+{
+"name": "Rock, Paper, Scissors", "short_name": "RPS",
+"description": "A small Rock, Paper Scissors game- still in developement",
+"start_url": "https://zach7815.github.io/rock-Paper-Scissors",
+"lang": "en",
+"icons": [{"src": "./images/icon.svg", "sizes": "any", "type": "image/svg+xml"}],
+"background_color": "#26096e", "theme_color": "#fff",
+"display": "fullscreen",
+"screenshots" : [
+	{
+		"src": "./images/demo.png", "type": "image/png",
+		"sizes": "1366x768", "platform": "wide",
+		"label": "RPS demo"
+	}
+]
+}
