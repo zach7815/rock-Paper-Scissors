@@ -184,7 +184,7 @@ const compChoice= generateCompAns();
 console.log(`The users choice selected was:${userChoice}`);
 console.log(` The computers choice selected was:${compChoice}`);
 
-calculateResult(userChoice,compChoice)
+calculateResult(userChoice,compChoice);
 }
 
 
@@ -208,6 +208,7 @@ const displayWinMes=()=>{
     headings.instrWrap.firstChild.innerText="Victory is yours!"
   },7000)
 }
+createResetButton()
   switch(userChoice){
     case "rock":
       animations.removeZoom()
@@ -215,18 +216,34 @@ const displayWinMes=()=>{
     if(compChoice==="paper"){
      displayRoundResult(userChoice,compChoice);
     displayLossMes();
+<<<<<<< HEAD
 
 
+=======
+   
+     
+   
+>>>>>>> 01ca162 (commit changes to allow rebase)
   } else if
     (compChoice==="rock"){
-     displayRoundResult(userChoice,compChoice);
+      displayRoundResult(userChoice,compChoice);
       displayDrawMes()
+<<<<<<< HEAD
 
+=======
+     
+      
+>>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else{
-     displayRoundResult(userChoice,compChoice);
+      displayRoundResult(userChoice,compChoice);
      displayWinMes()
+<<<<<<< HEAD
 
+=======
+   
+     
+>>>>>>> 01ca162 (commit changes to allow rebase)
     }
     break
 
@@ -234,30 +251,45 @@ const displayWinMes=()=>{
       animations.removeZoom()
       imageChangeAnimation()
     if(compChoice==="paper")
-     { displayRoundResult(userChoice,compChoice);
+     { 
+      displayRoundResult(userChoice,compChoice);
       displayDrawMes()
+     
     }
 
     else if(compChoice==="rock")
-     { displayRoundResult(userChoice,compChoice);
+     { 
       displayRoundResult(userChoice,compChoice);
      displayWinMes()
+<<<<<<< HEAD
 
+=======
+     
+    
+>>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else
-     { displayRoundResult(userChoice,compChoice);
+     { 
+      displayRoundResult(userChoice,compChoice);
       displayLossMes()
+     
     }
     break
+<<<<<<< HEAD
 
     break
 
+=======
+     
+>>>>>>> 01ca162 (commit changes to allow rebase)
     case "scissors":
       animations.removeZoom()
       imageChangeAnimation()
     if(compChoice==="paper")
-    {  displayRoundResult(userChoice,compChoice);
+    {  
+      displayRoundResult(userChoice,compChoice);
      displayWinMes()
+<<<<<<< HEAD
 
 
     }
@@ -265,15 +297,31 @@ const displayWinMes=()=>{
     {  displayRoundResult(userChoice,compChoice);
       displayLossMes()
 
+=======
+     
+      
+    
+    }
+    else if(compChoice==="rock")
+    {  
+      displayRoundResult(userChoice,compChoice);
+      displayLossMes();
+    
+>>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else
-    {  displayRoundResult(userChoice,compChoice);
+    {  
+      displayRoundResult(userChoice,compChoice);
      displayLossMes()
 
     }
     break
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01ca162 (commit changes to allow rebase)
     }
+  
 }
 
 function imageChangeAnimation(){
@@ -338,14 +386,28 @@ function imageChangeAnimation(){
     symbols.scissorsSymbol.scissImage.src=symbolSrcs[compChoice];
     symbols.scissorsSymbol.scissImage.style="display:block";
     symbols.scissorsSymbol.scissLabel.innerText=compChoice;
-    const resetBtn = document.createElement("button");
-    resetBtn.innerText="Play Again?";
-  headings.instrWrap.append(resetBtn);
-  resetBtn.addEventListener("click", ()=>{
-    window.location.reload(false);
-  })
+   
   }, 7000);
+<<<<<<< HEAD
 
 
 
  };
+=======
+
+ };
+
+const createResetButton =()=>{
+ 
+ setTimeout(() => {
+  const resetBtn = document.createElement("button");
+  resetBtn.innerText="Play Again?";
+// headings.instrWrap.append(resetBtn);
+const resultHeading =document.querySelector(".selectSymbol");
+resultHeading.appendChild(resetBtn);
+headings.instrWrap.addEventListener("click", ()=>{
+  window.location.reload(false);
+})
+ }, 7000);
+}
+>>>>>>> 01ca162 (commit changes to allow rebase)
