@@ -1,33 +1,34 @@
-const body=document.querySelector("body");
-const instruction = document.querySelector(".instrWrapper");
+const querySel = document.querySelector;
+const querySelAll = document.querySelectorAll;
+const body=querySel("body");
+const instruction = querySel(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false))
 
 const headings= {
-  h1: document.querySelector(".headline"),
- h2: document.createElement("h2"),
- scoreDisplay:document.querySelectorAll(".scoreContainer"),
- scoreDisplayWrap:document.querySelector(".outterScoreWrap"),
- scoreCircle: document.createElement("div"),
- instrWrap: document.querySelector(".instrWrapper"),
-
+  h1: querySel(".headline"),
+  h2: document.createElement("h2"),
+  scoreDisplay: querySelAll(".scoreContainer"),
+  scoreDisplayWrap: querySel(".outterScoreWrap"),
+  scoreCircle: document.createElement("div"),
+  instrWrap: querySel(".instrWrapper"),
 }
 const symbols = {
- symbolCards: document.querySelectorAll(".symbolCard"),
-rockSymbol:{
-  rocContainer: document.querySelector(".rocCont"),
-rocImage: document.querySelector(".rockImg"),
-rocLabel: document.querySelector(".rockTitle"),
-},
+  symbolCards: querySelAll(".symbolCard"),
+  rockSymbol:{
+    rocContainer: querySel(".rocCont"),
+    rocImage: querySel(".rockImg"),
+    rocLabel: querySel(".rockTitle"),
+  },
 paperSymbol:{
-  papContainer: document.querySelector(".papCont"),
-papImage: document.querySelector(".papImg"),
-papLabel: document.querySelector(".papTitle"),
+  papContainer: querySel(".papCont"),
+papImage: querySel(".papImg"),
+papLabel: querySel(".papTitle"),
 },
 scissorsSymbol:{
-scissContainer: document.querySelector(".scisCont"),
-scissImage: document.querySelector(".scisImg"),
-scissLabel: document.querySelector(".scicTitle"),
+scissContainer: querySel(".scisCont"),
+scissImage: querySel(".scisImg"),
+scissLabel: querySel(".scicTitle"),
 }
 
 }
@@ -42,7 +43,7 @@ const animations = {
     const detectUserChoice = (event) => {
       processUserChoice(event)
     }
-    body.addEventListener('click', detectUserChoice);
+    body.addEventListener("click", detectUserChoice);
     symbols.symbolCards.forEach(element=>element.addEventListener("click", detectUserChoice))
   },
 
@@ -72,11 +73,11 @@ function createRounds(){
   roundSelection.classList.add("roundSelection");
   roundSelection.append(createSuddenDeathBtn(), createThreeRndBtn(), createFiveRndBtn());
   instruction.replaceChildren(roundSelection);
-}; 
+};
 
 // ends start animation once user starts game
 const stopAnimation = ()=>{
-  let symbolAnimation=document.querySelectorAll(".symbolCard");
+  let symbolAnimation=querySelAll(".symbolCard");
   symbolAnimation.forEach(el=>el.classList.add("stopAnimation"));
 };
 
@@ -103,7 +104,7 @@ let   threeRound=document.createElement("button");
  threeRound.addEventListener("click",
  function(event){
   detectRounds(event)
-}
+ }
  )
       return threeRound;
 };
@@ -114,12 +115,12 @@ const createFiveRndBtn =()=>{
 let   fiveRound=document.createElement("button");
   fiveRound.innerText="Five Rounds";
   fiveRound.classList.add("fiveRounds");
- fiveRound.id="fiveRounds";
-  fiveRound.addEventListener("click", 
+  fiveRound.id="fiveRounds";
+  fiveRound.addEventListener("click",
   function(event){
     detectRounds(event)
   }
-  
+
   );
   return fiveRound;
 
@@ -129,7 +130,7 @@ let   fiveRound=document.createElement("button");
 function detectRounds(event){
   if(event.target.matches("#suddenDeath")){
     setSuddenDeath()
-    
+
   }
   else if (event.target.matches("#threeRounds")){
     setThreeRounds()
@@ -138,17 +139,19 @@ function detectRounds(event){
 }
 
 
+function setSymbol(){
+  headings.h2.innerHTML="Choose your symbol";
+  headings.h2.classList.add("selectSymbol");
+}
 
-
-// runs and manages sudden death round 
+// runs and manages sudden death round
 const setSuddenDeath = ()=>{
   headings.h1.innerHTML="Sudden Death!";
   headings.h1.classList.add("suddenDH1");
-  headings.h2.innerHTML="Choose your symbol";
-  headings.h2.classList.add("selectSymbol");
+  setSymbol()
   headings.instrWrap.firstChild.replaceWith(headings.h2);
   animations.selectSymbol();
-  
+
 }
 
 
@@ -156,23 +159,21 @@ const setSuddenDeath = ()=>{
 // runs and manages three round answer
 function setThreeRounds(){
   headings.h1.innerHTML="Round 1";
-  headings.h2.innerHTML="Choose your symbol";
-  headings.h2.classList.add("selectSymbol");
+  setSymbol()
 headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
 // runs and manages five rounds
 function setFiveRounds(){
   headings.h1.innerHTML="Round 1";
-  headings.h2.innerHTML="Choose your symbol";
-  headings.h2.classList.add("selectSymbol");
+  setSymbol()
 headings.instrWrap.firstChild.replaceWith(headings.h2);
 }
 
 // produces computer answer
 const generateCompAns=()=>{
   const optionsArr= ["rock", "paper", "scissors"];
-  const randNum= Math.floor((Math.random()*3));
+  const randNum= Math.floor(Math.random()*3);
   return optionsArr[randNum];
 }
 
@@ -196,17 +197,17 @@ const calculateResult = (userChoice, compChoice)=>{
 const displayDrawMes = ()=>{
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Ahh drat it's a draw!"
-   },7000)
+  },7000)
 }
 const displayLossMes=()=>{
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Ahh no you lost!"
-   },7000)
+  },7000)
 }
 const displayWinMes=()=>{
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Victory is yours!"
-   },7000)
+  },7000)
 }
   switch(userChoice){
     case "rock":
@@ -215,21 +216,21 @@ const displayWinMes=()=>{
     if(compChoice==="paper"){
      displayRoundResult(userChoice,compChoice);
     displayLossMes();
-     
-   
+
+
   } else if
     (compChoice==="rock"){
      displayRoundResult(userChoice,compChoice);
       displayDrawMes()
-      
+
     }
     else{
      displayRoundResult(userChoice,compChoice);
      displayWinMes()
-     
+
     }
     break
-    
+
     case "paper":
       animations.removeZoom()
       imageChangeAnimation()
@@ -237,70 +238,70 @@ const displayWinMes=()=>{
      { displayRoundResult(userChoice,compChoice);
       displayDrawMes()
     }
-      
+
     else if(compChoice==="rock")
      { displayRoundResult(userChoice,compChoice);
       displayRoundResult(userChoice,compChoice);
      displayWinMes()
-    
+
     }
     else
      { displayRoundResult(userChoice,compChoice);
       displayLossMes()
     }
     break
-     
+
     break
-    
+
     case "scissors":
       animations.removeZoom()
       imageChangeAnimation()
     if(compChoice==="paper")
     {  displayRoundResult(userChoice,compChoice);
      displayWinMes()
-      
-    
+
+
     }
     else if(compChoice==="rock")
     {  displayRoundResult(userChoice,compChoice);
       displayLossMes()
-    
+
     }
     else
     {  displayRoundResult(userChoice,compChoice);
      displayLossMes()
-    
+
     }
     break
-    
+
     }
 }
 
 function imageChangeAnimation(){
-  
-  const imageCont= document.querySelectorAll(".symCont");
-   const symbol=document.querySelectorAll(".symImg");
-   const symbolLabel =document.querySelectorAll(".symHead");
+
+  const imageCont= querySelAll(".symCont");
+   const symbol=querySelAll(".symImg");
+   const symbolLabel =querySelAll(".symHead");
    symbols.scissorsSymbol.scissImage.src="./images/rock.png";
    symbols.scissorsSymbol.scissLabel.innerText="rock";
    symbols.paperSymbol.papContainer.classList.add("papContFade");
-    
-  
+
+
    setTimeout(()=>{
    bounceElement(imageCont);
    setTimeout(()=>{
-     changeStyle(symbol, symbolLabel)  
+     changeStyle(symbol, symbolLabel)
    },1000);
      }
   ,2000 )
  }
- 
+
 // Triggers round animation- Rock, Paper, Scissors, Shoot!
 
  function bounceElement(element){
  element.forEach(item => item.classList.add("animation"))
  };
- 
+
  function changeStyle(images, imageLabel){
 
      images.forEach(image=> image.src="./images/paper.png");
@@ -312,16 +313,16 @@ function imageChangeAnimation(){
           images.forEach(image=> image.style="display:none");
   imageLabel.forEach(imageLabels=>imageLabels.innerText="shoot!");
    },1000);
-       
-       
+
+
    },1000);
- 
+
 
 
  }
- 
+
 // sets image for comp and user choice after imageChange animation has run,
-// then adds reset button at bottom of the the screen. 
+// then adds reset button at bottom of the the screen.
 
  const displayRoundResult=(userChoice,compChoice)=>{
 
@@ -345,9 +346,7 @@ function imageChangeAnimation(){
     window.location.reload(false);
   })
   }, 7000);
-  
+
 
 
  };
-
-
