@@ -1,34 +1,33 @@
-const querySel = document.querySelector;
-const querySelAll = document.querySelectorAll;
-const body=querySel("body");
-const instruction = querySel(".instrWrapper");
+
+const body= document.querySelector("body");
+const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false))
 
 const headings= {
-  h1: querySel(".headline"),
+  h1: document.querySelector(".headline"),
   h2: document.createElement("h2"),
-  scoreDisplay: querySelAll(".scoreContainer"),
-  scoreDisplayWrap: querySel(".outterScoreWrap"),
+  scoreDisplay: document.querySelectorAll(".scoreContainer"),
+  scoreDisplayWrap: document.querySelector(".outterScoreWrap"),
   scoreCircle: document.createElement("div"),
-  instrWrap: querySel(".instrWrapper"),
+  instrWrap: document.querySelector(".instrWrapper"),
 }
 const symbols = {
-  symbolCards: querySelAll(".symbolCard"),
+  symbolCards: document.querySelectorAll(".symbolCard"),
   rockSymbol:{
-    rocContainer: querySel(".rocCont"),
-    rocImage: querySel(".rockImg"),
-    rocLabel: querySel(".rockTitle"),
+    rocContainer: document.querySelector(".rocCont"),
+    rocImage: document.querySelector(".rockImg"),
+    rocLabel: document.querySelector(".rockTitle"),
   },
 paperSymbol:{
-  papContainer: querySel(".papCont"),
-papImage: querySel(".papImg"),
-papLabel: querySel(".papTitle"),
+  papContainer: document.querySelector(".papCont"),
+papImage: document.querySelector(".papImg"),
+papLabel: document.querySelector(".papTitle"),
 },
 scissorsSymbol:{
-scissContainer: querySel(".scisCont"),
-scissImage: querySel(".scisImg"),
-scissLabel: querySel(".scicTitle"),
+scissContainer: document.querySelector(".scisCont"),
+scissImage: document.querySelector(".scisImg"),
+scissLabel: document.querySelector(".scicTitle"),
 }
 
 }
@@ -77,7 +76,7 @@ function createRounds(){
 
 // ends start animation once user starts game
 const stopAnimation = ()=>{
-  let symbolAnimation=querySelAll(".symbolCard");
+  let symbolAnimation=document.querySelectorAll(".symbolCard");
   symbolAnimation.forEach(el=>el.classList.add("stopAnimation"));
 };
 
@@ -279,9 +278,9 @@ const displayWinMes=()=>{
 
 function imageChangeAnimation(){
 
-  const imageCont= querySelAll(".symCont");
-   const symbol=querySelAll(".symImg");
-   const symbolLabel =querySelAll(".symHead");
+  const imageCont= document.querySelectorAll(".symCont");
+   const symbol=document.querySelectorAll(".symImg");
+   const symbolLabel =document.querySelectorAll(".symHead");
    symbols.scissorsSymbol.scissImage.src="./images/rock.png";
    symbols.scissorsSymbol.scissLabel.innerText="rock";
    symbols.paperSymbol.papContainer.classList.add("papContFade");
