@@ -4,12 +4,31 @@ const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false))
 
+const roundResults= {
+  threeRounds:{
+    userScore:[],
+    computerScore:[]
+  }, 
+    fiveRounds:{
+    userScore:[],
+    computerScore:[]
+  }
+}
+
+const userAnswers = [];
+const compAnswers =[];
+
+const resetBtn = document.createElement("button");
+  resetBtn.innerText="Play Again?";
+
+
 const headings= {
   h1: document.querySelector(".headline"),
   h2: document.createElement("h2"),
-  scoreDisplay: document.querySelectorAll(".scoreContainer"),
+  scoreDisplay: document.querySelector(".scoreContainer"),
   scoreDisplayWrap: document.querySelector(".outterScoreWrap"),
-  scoreCircle: document.createElement("div"),
+  userScore:document.querySelector(".userScore"),
+  compScore:document.querySelector(".compScore"),
   instrWrap: document.querySelector(".instrWrapper"),
 }
 const symbols = {
@@ -32,20 +51,24 @@ scissLabel: document.querySelector(".scicTitle"),
 
 }
 
+addSymbolListener= ()=>{
+  symbols.symbolCards.forEach(element=>element.addEventListener("click", detectUserChoice))
+}
+
+const detectUserChoice = (event) => {
+  console.log(event.target.id)
+ }
+
+
+const selectSymbol= ()=>{
+  animations.addZoom();
+  addSymbolListener();
+}
 
 const animations = {
   addZoom: ()=>{
     symbols.symbolCards.forEach(element=>element.classList.add("symbolZoom"));
   },
-  selectSymbol: ()=>{
-    animations.addZoom()
-    const detectUserChoice = (event) => {
-      processUserChoice(event)
-    }
-    body.addEventListener("click", detectUserChoice);
-    symbols.symbolCards.forEach(element=>element.addEventListener("click", detectUserChoice))
-  },
-
    removeZoom: ()=>{
     symbols.symbolCards.forEach(element=>element.classList.remove("symbolZoom"));
   }
@@ -87,8 +110,8 @@ let  suddenDeathR=document.createElement("button");
  suddenDeathR.classList.add("suddenDeath");
  suddenDeathR.id="suddenDeath";
 suddenDeathR.addEventListener("click",
-function(event){
-  detectRounds(event)
+function(roundSelection){
+  detectRounds(roundSelection)
 }
 );
 return suddenDeathR;
@@ -126,12 +149,12 @@ let   fiveRound=document.createElement("button");
 };
 
 // detects how many rounds user has chosen to play e.g 1, 3 or five
-function detectRounds(event){
-  if(event.target.matches("#suddenDeath")){
+function detectRounds(rounds){
+  if(rounds.target.matches("#suddenDeath")){
     setSuddenDeath()
 
   }
-  else if (event.target.matches("#threeRounds")){
+  else if (rounds.target.matches("#threeRounds")){
     setThreeRounds()
   }
   else {setFiveRounds()}
@@ -149,21 +172,37 @@ const setSuddenDeath = ()=>{
   headings.h1.classList.add("suddenDH1");
   setSymbol()
   headings.instrWrap.firstChild.replaceWith(headings.h2);
-  animations.selectSymbol();
+  selectSymbol();
 
 }
 
 
 
 // runs and manages three round answer
-function setThreeRounds(){
+const setThreeRounds = ()=>{
   headings.h1.innerHTML="Round 1";
-  setSymbol()
+  setSymbol();
 headings.instrWrap.firstChild.replaceWith(headings.h2);
+for(let i=0; i<3; i++){
+  let circle=document.createElement("div");
+  circle.classList.add("circle");
+  headings.roundResults.threeRounds.append(circle);
+};
+for(let i=0; i<3; i++){
+  let circle=document.createElement("div");
+  circle.classList.add("circle");
+  headings.compScore.append(circle);
+};
+headings.compScore.classList.add("styleScores");
+headings.roundResults.threeRounds.classList.add("styleScores");
+headings.scoreDisplay.classList.add("styleScoreCont");
 
-}
+animations.selectSymbol();
+};
+
+
 // runs and manages five rounds
-function setFiveRounds(){
+const setFiveRounds=()=>{
   headings.h1.innerHTML="Round 1";
   setSymbol()
 headings.instrWrap.firstChild.replaceWith(headings.h2);
@@ -181,10 +220,8 @@ const generateCompAns=()=>{
 const processUserChoice =(event)=>{
 const userChoice = event.target.id;
 const compChoice= generateCompAns();
-console.log(`The users choice selected was:${userChoice}`);
-console.log(` The computers choice selected was:${compChoice}`);
-
-calculateResult(userChoice,compChoice);
+userAnswers.push(userChoice);
+compAnswers.push(userAnswers);
 }
 
 
@@ -216,34 +253,16 @@ createResetButton()
     if(compChoice==="paper"){
      displayRoundResult(userChoice,compChoice);
     displayLossMes();
-<<<<<<< HEAD
 
 
-=======
-   
-     
-   
->>>>>>> 01ca162 (commit changes to allow rebase)
   } else if
     (compChoice==="rock"){
       displayRoundResult(userChoice,compChoice);
       displayDrawMes()
-<<<<<<< HEAD
-
-=======
-     
-      
->>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else{
       displayRoundResult(userChoice,compChoice);
      displayWinMes()
-<<<<<<< HEAD
-
-=======
-   
-     
->>>>>>> 01ca162 (commit changes to allow rebase)
     }
     break
 
@@ -261,12 +280,6 @@ createResetButton()
      { 
       displayRoundResult(userChoice,compChoice);
      displayWinMes()
-<<<<<<< HEAD
-
-=======
-     
-    
->>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else
      { 
@@ -275,13 +288,8 @@ createResetButton()
      
     }
     break
-<<<<<<< HEAD
 
-    break
 
-=======
-     
->>>>>>> 01ca162 (commit changes to allow rebase)
     case "scissors":
       animations.removeZoom()
       imageChangeAnimation()
@@ -289,15 +297,6 @@ createResetButton()
     {  
       displayRoundResult(userChoice,compChoice);
      displayWinMes()
-<<<<<<< HEAD
-
-
-    }
-    else if(compChoice==="rock")
-    {  displayRoundResult(userChoice,compChoice);
-      displayLossMes()
-
-=======
      
       
     
@@ -307,21 +306,16 @@ createResetButton()
       displayRoundResult(userChoice,compChoice);
       displayLossMes();
     
->>>>>>> 01ca162 (commit changes to allow rebase)
     }
     else
     {  
       displayRoundResult(userChoice,compChoice);
-     displayLossMes()
+     displayDrawMes()
 
     }
     break
-<<<<<<< HEAD
-
-=======
->>>>>>> 01ca162 (commit changes to allow rebase)
     }
-  
+  storeResults()
 }
 
 function imageChangeAnimation(){
@@ -388,26 +382,33 @@ function imageChangeAnimation(){
     symbols.scissorsSymbol.scissLabel.innerText=compChoice;
    
   }, 7000);
-<<<<<<< HEAD
-
-
-
- };
-=======
 
  };
 
 const createResetButton =()=>{
  
  setTimeout(() => {
-  const resetBtn = document.createElement("button");
-  resetBtn.innerText="Play Again?";
-// headings.instrWrap.append(resetBtn);
-const resultHeading =document.querySelector(".selectSymbol");
-resultHeading.appendChild(resetBtn);
+  headings.instrWrap.append(resetBtn);
 headings.instrWrap.addEventListener("click", ()=>{
   window.location.reload(false);
 })
- }, 7000);
+ }, 9000);
 }
->>>>>>> 01ca162 (commit changes to allow rebase)
+
+
+const storeResults= ()=>{
+
+if (headings.h2.innerText==="Victory is yours!"){
+  roundResults.threeRounds.userScore.push("win")
+  roundResults.threeRounds.computerScore.push("lose")
+}
+else if (headings.h2.innerText==="Ahh no you lost!"){
+  roundResults.threeRounds.userScore.push("win")
+  roundResults.threeRounds.computerScore.push("lose")
+}
+else{
+  roundResults.threeRounds.userScore.push("draw");
+  roundResults.threeRounds.computerScore.push("draw");
+}
+}
+
