@@ -48,15 +48,24 @@ scissContainer: document.querySelector(".scisCont"),
 scissImage: document.querySelector(".scisImg"),
 scissLabel: document.querySelector(".scicTitle"),
 }
-
 }
+
+
+
 
 addSymbolListener= ()=>{
-  symbols.symbolCards.forEach(element=>element.addEventListener("click", detectUserChoice))
+  symbols.symbolCards.forEach(element=>element.addEventListener("click", processChoices))
 }
-
-const detectUserChoice = (event) => {
-  console.log(event.target.id)
+// handles both user and computer generated answer; 
+const processChoices = (event) => {
+  let userAns= event.target.id
+  userAnswers.push(userAns);
+  let compAns = generateCompAns();
+  compAnswers.push(compAns)
+  animations.removeZoom()
+  console.log(userAnswers);
+  console.log(compAnswers);
+  handleChoices(userAns,compAns)
  }
 
 
@@ -124,8 +133,8 @@ let   threeRound=document.createElement("button");
   threeRound.classList.add("threeRounds");
   threeRound.id="threeRounds";
  threeRound.addEventListener("click",
- function(event){
-  detectRounds(event)
+ function(roundSelection){
+  detectRounds(roundSelection)
  }
  )
       return threeRound;
@@ -139,8 +148,8 @@ let   fiveRound=document.createElement("button");
   fiveRound.classList.add("fiveRounds");
   fiveRound.id="fiveRounds";
   fiveRound.addEventListener("click",
-  function(event){
-    detectRounds(event)
+  function(roundSelection){
+    detectRounds(roundSelection)
   }
 
   );
@@ -151,13 +160,13 @@ let   fiveRound=document.createElement("button");
 // detects how many rounds user has chosen to play e.g 1, 3 or five
 function detectRounds(rounds){
   if(rounds.target.matches("#suddenDeath")){
-    setSuddenDeath()
+    setSuddenDeath(rounds)
 
   }
   else if (rounds.target.matches("#threeRounds")){
-    setThreeRounds()
+    setThreeRounds(rounds)
   }
-  else {setFiveRounds()}
+  else {setFiveRounds(rounds)}
 }
 
 
@@ -167,9 +176,10 @@ function setSymbol(){
 }
 
 // runs and manages sudden death round
-const setSuddenDeath = ()=>{
+const setSuddenDeath = (rounds)=>{
   headings.h1.innerHTML="Sudden Death!";
   headings.h1.classList.add("suddenDH1");
+  console.log(rounds.target.id)
   setSymbol()
   headings.instrWrap.firstChild.replaceWith(headings.h2);
   selectSymbol();
@@ -179,14 +189,15 @@ const setSuddenDeath = ()=>{
 
 
 // runs and manages three round answer
-const setThreeRounds = ()=>{
+const setThreeRounds = (rounds)=>{
   headings.h1.innerHTML="Round 1";
+  console.log(rounds.target.id)
   setSymbol();
 headings.instrWrap.firstChild.replaceWith(headings.h2);
 for(let i=0; i<3; i++){
   let circle=document.createElement("div");
   circle.classList.add("circle");
-  headings.roundResults.threeRounds.append(circle);
+  headings.userScore.append(circle);
 };
 for(let i=0; i<3; i++){
   let circle=document.createElement("div");
@@ -194,16 +205,20 @@ for(let i=0; i<3; i++){
   headings.compScore.append(circle);
 };
 headings.compScore.classList.add("styleScores");
-headings.roundResults.threeRounds.classList.add("styleScores");
+headings.userScore.classList.add("styleScores");
 headings.scoreDisplay.classList.add("styleScoreCont");
 
-animations.selectSymbol();
+const userPoints=document.querySelectorAll(".userScore .circle");
+const compPoints=document.querySelectorAll(".compScore .circle");
+selectSymbol()
+
 };
 
 
 // runs and manages five rounds
-const setFiveRounds=()=>{
+const setFiveRounds=(rounds)=>{
   headings.h1.innerHTML="Round 1";
+  console.log(rounds.target.id)
   setSymbol()
 headings.instrWrap.firstChild.replaceWith(headings.h2);
 }
@@ -216,109 +231,12 @@ const generateCompAns=()=>{
 }
 
 
-// handles user choice
-const processUserChoice =(event)=>{
-const userChoice = event.target.id;
-const compChoice= generateCompAns();
-userAnswers.push(userChoice);
-compAnswers.push(userAnswers);
-}
-
-
 
 
 // works out who wins comp or user and changes H2 to reflect result
-const calculateResult = (userChoice, compChoice)=>{
-
-const displayDrawMes = ()=>{
-  setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Ahh drat it's a draw!"
-  },7000)
-}
-const displayLossMes=()=>{
-  setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Ahh no you lost!"
-  },7000)
-}
-const displayWinMes=()=>{
-  setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Victory is yours!"
-  },7000)
-}
-createResetButton()
-  switch(userChoice){
-    case "rock":
-      animations.removeZoom()
-      imageChangeAnimation()
-    if(compChoice==="paper"){
-     displayRoundResult(userChoice,compChoice);
-    displayLossMes();
 
 
-  } else if
-    (compChoice==="rock"){
-      displayRoundResult(userChoice,compChoice);
-      displayDrawMes()
-    }
-    else{
-      displayRoundResult(userChoice,compChoice);
-     displayWinMes()
-    }
-    break
-
-    case "paper":
-      animations.removeZoom()
-      imageChangeAnimation()
-    if(compChoice==="paper")
-     { 
-      displayRoundResult(userChoice,compChoice);
-      displayDrawMes()
-     
-    }
-
-    else if(compChoice==="rock")
-     { 
-      displayRoundResult(userChoice,compChoice);
-     displayWinMes()
-    }
-    else
-     { 
-      displayRoundResult(userChoice,compChoice);
-      displayLossMes()
-     
-    }
-    break
-
-
-    case "scissors":
-      animations.removeZoom()
-      imageChangeAnimation()
-    if(compChoice==="paper")
-    {  
-      displayRoundResult(userChoice,compChoice);
-     displayWinMes()
-     
-      
-    
-    }
-    else if(compChoice==="rock")
-    {  
-      displayRoundResult(userChoice,compChoice);
-      displayLossMes();
-    
-    }
-    else
-    {  
-      displayRoundResult(userChoice,compChoice);
-     displayDrawMes()
-
-    }
-    break
-    }
-  storeResults()
-}
-
-function imageChangeAnimation(){
+const imageChangeAnimation=()=>{
 
   const imageCont= document.querySelectorAll(".symCont");
    const symbol=document.querySelectorAll(".symImg");
@@ -396,19 +314,87 @@ headings.instrWrap.addEventListener("click", ()=>{
 }
 
 
-const storeResults= ()=>{
 
-if (headings.h2.innerText==="Victory is yours!"){
-  roundResults.threeRounds.userScore.push("win")
-  roundResults.threeRounds.computerScore.push("lose")
+const handleChoices = (userAns, compAns)=>{
+if (userAns ==="rock"){
+handleAnsRock(compAns);
 }
-else if (headings.h2.innerText==="Ahh no you lost!"){
-  roundResults.threeRounds.userScore.push("win")
-  roundResults.threeRounds.computerScore.push("lose")
+else if (userAns ==="paper"){
+  handleAnsPap(compAns);
 }
-else{
-  roundResults.threeRounds.userScore.push("draw");
-  roundResults.threeRounds.computerScore.push("draw");
-}
-}
+else {
+  handleAnsScissors(compAns);
+};
+};
 
+const handleAnsRock = (compAnswers)=>{
+if(compAnswers==="rock"){
+  imageChangeAnimation();
+  displayRoundResult("rock", compAnswers)
+displayDrawMes();
+}
+else if(compAnswers==="paper"){
+imageChangeAnimation();
+displayRoundResult("rock", compAnswers)
+displayLossMes();
+}
+else {
+  imageChangeAnimation();
+  displayRoundResult("rock", compAnswers);
+  displayWinMes();
+};
+};
+
+handleAnsPap = (compAnswers)=>{
+  if(compAnswers==="rock"){
+    imageChangeAnimation();
+    displayRoundResult("paper", compAnswers);
+  displayWinMes();
+  }
+  else if(compAnswers==="paper"){
+  imageChangeAnimation();
+  displayRoundResult("paper", compAnswers);
+  displayDrawMes();
+  }
+  else {
+    imageChangeAnimation();
+    displayRoundResult("paper", compAnswers)
+    displayLossMes()
+  };
+  };
+
+  handleAnsScissors = (compAnswers)=>{
+    if(compAnswers==="rock"){
+      imageChangeAnimation();
+      displayRoundResult("scissors", compAnswers);
+    displayLossMes();
+    }
+    else if(compAnswers==="paper"){
+    imageChangeAnimation();
+    displayRoundResult("scissors", compAnswers);
+    displayWinMes();
+    }
+    else {
+      imageChangeAnimation();
+      displayRoundResult("scissors", compAnswers);
+      displayDrawMes();
+    };
+    };
+
+// functions that control h2 and display round result message to users. 
+
+const displayDrawMes = ()=>{
+  setTimeout(()=>{
+    headings.instrWrap.firstChild.innerText="Ahh drat it's a draw!"
+  },7000);
+};
+const displayLossMes=()=>{
+  setTimeout(()=>{
+    headings.instrWrap.firstChild.innerText="Ahh no you lost!"
+  },7000);
+};
+const displayWinMes=()=>{
+  setTimeout(()=>{
+    headings.instrWrap.firstChild.innerText="Victory is yours!"
+  },7000);
+};
