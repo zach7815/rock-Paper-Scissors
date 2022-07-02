@@ -24,7 +24,7 @@ body {
 .innerWrapper {
   display: flex;
   gap: 3rem;
-  align-items: baseline;
+  align-items: end;
 }
 .instrWrapper{
   text-align: center;

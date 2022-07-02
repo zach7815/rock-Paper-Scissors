@@ -2,25 +2,18 @@
 const body= document.querySelector("body");
 const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
-interactions.forEach(evt=>body.addEventListener(evt, handler, false))
+interactions.forEach(evt=>body.addEventListener(evt, handler, false));
+let round = 0;
 
-const roundResults= {
-  threeRounds:{
-    userScore:[],
-    computerScore:[]
-  }, 
-    fiveRounds:{
-    userScore:[],
-    computerScore:[]
-  }
+const symbolSrcs = {
+  rock:"./images/rock.png",
+  paper:"./images/paper.png",
+  scissors:"./images/scissors.png",
 }
+
 
 const userAnswers = [];
 const compAnswers =[];
-
-const resetBtn = document.createElement("button");
-  resetBtn.innerText="Play Again?";
-
 
 const headings= {
   h1: document.querySelector(".headline"),
@@ -53,25 +46,44 @@ scissLabel: document.querySelector(".scicTitle"),
 
 
 
-addSymbolListener= ()=>{
-  symbols.symbolCards.forEach(element=>element.addEventListener("click", processChoices))
+addSymbolListener= (rounds)=>{
+let roundType= rounds.target.id;
+console.log(rounds.target.id)
+if (roundType==="suddenDeath"){
+  symbols.symbolCards.forEach(element=>element.addEventListener("click", (userSel)=>{
+   userChoice=userSel.target.id;
+    runOneRound(userSel)
+  }))
 }
-// handles both user and computer generated answer; 
-const processChoices = (event) => {
-  let userAns= event.target.id
-  userAnswers.push(userAns);
-  let compAns = generateCompAns();
-  compAnswers.push(compAns)
-  animations.removeZoom()
-  console.log(userAnswers);
-  console.log(compAnswers);
-  handleChoices(userAns,compAns)
- }
+else if(roundType==="threeRounds"){
+  symbols.symbolCards.forEach(element=>element.addEventListener("click", (userSel)=>{
+    userChoice=userSel.target.id;
+     runThreeRounds(userChoice);
+   }))
+
+
+}
+
+
+
+ 
+}
+// // handles both user and computer generated answer; 
+// const processChoices = (userSel) => {
+//   let userAns= userSel.target.id
+//   userAnswers.push(userAns);
+//   let compAns = generateCompAns();
+//   compAnswers.push(compAns)
+//   animations.removeZoom()
+//   console.log(userAnswers);
+//   console.log(compAnswers);
+//   handleChoices(userAns, compAns);
+
+//  }
 
 
 const selectSymbol= ()=>{
   animations.addZoom();
-  addSymbolListener();
 }
 
 const animations = {
@@ -84,13 +96,13 @@ const animations = {
 }
 
 // removes initial event listeners for starting state of game. Avoids game reset
-function handler(e){
+function handler(_e){
 interactions.forEach(e=> body.removeEventListener(e, handler))
 gameSequence()
 
 }
 
-
+// initiates game sequence
 function gameSequence(){
   createRounds()
   stopAnimation()
@@ -112,6 +124,8 @@ const stopAnimation = ()=>{
   symbolAnimation.forEach(el=>el.classList.add("stopAnimation"));
 };
 
+
+// creates buttons for round selection
 
 const createSuddenDeathBtn =()=>{
 let  suddenDeathR=document.createElement("button");
@@ -169,58 +183,76 @@ function detectRounds(rounds){
   else {setFiveRounds(rounds)}
 }
 
+// provides user instruction to choose symbol
 
 function setSymbol(){
   headings.h2.innerHTML="Choose your symbol";
   headings.h2.classList.add("selectSymbol");
 }
 
+
+
 // runs and manages sudden death round
 const setSuddenDeath = (rounds)=>{
   headings.h1.innerHTML="Sudden Death!";
   headings.h1.classList.add("suddenDH1");
-  console.log(rounds.target.id)
   setSymbol()
   headings.instrWrap.firstChild.replaceWith(headings.h2);
   selectSymbol();
-
+  addSymbolListener(rounds)
+  
 }
 
 
 
 // runs and manages three round answer
 const setThreeRounds = (rounds)=>{
-  headings.h1.innerHTML="Round 1";
-  console.log(rounds.target.id)
+ setRoundAmount();
+ totalRounds=3;
+ createScoreBoard(totalRounds)
   setSymbol();
-headings.instrWrap.firstChild.replaceWith(headings.h2);
-for(let i=0; i<3; i++){
-  let circle=document.createElement("div");
-  circle.classList.add("circle");
-  headings.userScore.append(circle);
-};
-for(let i=0; i<3; i++){
-  let circle=document.createElement("div");
-  circle.classList.add("circle");
-  headings.compScore.append(circle);
-};
-headings.compScore.classList.add("styleScores");
-headings.userScore.classList.add("styleScores");
-headings.scoreDisplay.classList.add("styleScoreCont");
+  ReplaceRoundButtons()
+  selectSymbol();
+  addSymbolListener(rounds);
+ 
 
-const userPoints=document.querySelectorAll(".userScore .circle");
-const compPoints=document.querySelectorAll(".compScore .circle");
-selectSymbol()
 
 };
 
+
+const ReplaceRoundButtons= ()=>{
+  headings.instrWrap.firstChild.replaceWith(headings.h2);
+
+}
+
+const resetRound = ()=>{
+  setSymbol();
+  animations.addZoom();
+  resetImages();
+  removeBtn()
+  setRoundAmount()
+}
+
+const resetImages = ()=>{
+  symbols.paperSymbol.papContainer.classList.remove("papContFade");
+  symbols.rockSymbol.rocImage.src=symbolSrcs["rock"];
+  symbols.rockSymbol.rocLabel.innerText="rock";
+  symbols.scissorsSymbol.scissImage.src=symbolSrcs["scissors"];
+  symbols.scissorsSymbol.scissLabel.innerText="scissors";
+}
+
+const removeBtn = ()=>{
+  headings.instrWrap.removeChild(headings.instrWrap.lastChild)
+}
 
 // runs and manages five rounds
 const setFiveRounds=(rounds)=>{
   headings.h1.innerHTML="Round 1";
   console.log(rounds.target.id)
   setSymbol()
-headings.instrWrap.firstChild.replaceWith(headings.h2);
+  const totalRounds=5;
+  createScoreBoard(totalRounds)
+  ReplaceRoundButtons()
 }
 
 // produces computer answer
@@ -232,9 +264,37 @@ const generateCompAns=()=>{
 
 
 
+// manages page appearance depending on user action and game progression
+const setRoundAmount =()=>{
+  round++
+  headings.h1.innerText=`Round ${round}`;
+}
+createScoreBoard = (roundAmount)=>{
+  for(let i=0; i<roundAmount; i++){
+    let circle=document.createElement("div");
+    circle.classList.add("circle");
+    headings.userScore.append(circle);
+  };
+  for(let i=0; i<roundAmount; i++){
+    let circle=document.createElement("div");
+    circle.classList.add("circle");
+    headings.compScore.append(circle);
+  };
+  headings.compScore.classList.add("styleScores");
+  headings.userScore.classList.add("styleScores");
+  headings.scoreDisplay.classList.add("styleScoreCont");
+}
 
-// works out who wins comp or user and changes H2 to reflect result
 
+
+
+// adds animation to start of game state. 
+
+ function bounceElement(element){
+ element.forEach(item => item.classList.add("animation"))
+ };
+
+// starts game animation
 
 const imageChangeAnimation=()=>{
 
@@ -244,8 +304,6 @@ const imageChangeAnimation=()=>{
    symbols.scissorsSymbol.scissImage.src="./images/rock.png";
    symbols.scissorsSymbol.scissLabel.innerText="rock";
    symbols.paperSymbol.papContainer.classList.add("papContFade");
-
-
    setTimeout(()=>{
    bounceElement(imageCont);
    setTimeout(()=>{
@@ -255,11 +313,8 @@ const imageChangeAnimation=()=>{
   ,2000 )
  }
 
-// Triggers round animation- Rock, Paper, Scissors, Shoot!
 
- function bounceElement(element){
- element.forEach(item => item.classList.add("animation"))
- };
+// plays game animation once user has inputted a result. 
 
  function changeStyle(images, imageLabel){
 
@@ -280,16 +335,10 @@ const imageChangeAnimation=()=>{
 
  }
 
-// sets image for comp and user choice after imageChange animation has run,
-// then adds reset button at bottom of the the screen.
+// sets user and comp choice after game animation has played. 
 
  const displayRoundResult=(userChoice,compChoice)=>{
 
-  const symbolSrcs = {
-    rock:"./images/rock.png",
-    paper:"./images/paper.png",
-    scissors:"./images/scissors.png",
-  }
 
   setTimeout(()=>{
     symbols.rockSymbol.rocImage.src=symbolSrcs[userChoice];
@@ -303,17 +352,40 @@ const imageChangeAnimation=()=>{
 
  };
 
-const createResetButton =()=>{
- 
- setTimeout(() => {
-  headings.instrWrap.append(resetBtn);
-headings.instrWrap.addEventListener("click", ()=>{
-  window.location.reload(false);
-})
- }, 9000);
+// functions to create buttons after each round
+
+const createResetButton=()=>{
+    const resetBtn = document.createElement("button");
+    resetBtn.innerText="Play Again?";
+    headings.instrWrap.append(resetBtn);
+    headings.instrWrap.addEventListener("click", ()=>{
+      window.location.reload(false);
+    })
+  
 }
 
 
+
+const createNextRoundButton=()=>{
+    const nextRbtn= document.createElement("button");
+    nextRbtn.innerText="Next Round"; 
+    nextRbtn.addEventListener("click", resetRound) 
+    headings.instrWrap.append(nextRbtn);
+};
+
+
+
+const appendButton=(button)=>{
+  headings.instrWrap.append(button); 
+}
+
+
+
+
+// create function to play next round. 
+
+
+// functions to process and deal with both user and computer answers. 
 
 const handleChoices = (userAns, compAns)=>{
 if (userAns ==="rock"){
@@ -331,17 +403,17 @@ const handleAnsRock = (compAnswers)=>{
 if(compAnswers==="rock"){
   imageChangeAnimation();
   displayRoundResult("rock", compAnswers)
-displayDrawMes();
+handleDraw();
 }
 else if(compAnswers==="paper"){
 imageChangeAnimation();
 displayRoundResult("rock", compAnswers)
-displayLossMes();
+handleLoss();
 }
 else {
   imageChangeAnimation();
   displayRoundResult("rock", compAnswers);
-  displayWinMes();
+  handleWin();
 };
 };
 
@@ -349,17 +421,17 @@ handleAnsPap = (compAnswers)=>{
   if(compAnswers==="rock"){
     imageChangeAnimation();
     displayRoundResult("paper", compAnswers);
-  displayWinMes();
+  handleWin();
   }
   else if(compAnswers==="paper"){
   imageChangeAnimation();
   displayRoundResult("paper", compAnswers);
-  displayDrawMes();
+  handleDraw();
   }
   else {
     imageChangeAnimation();
     displayRoundResult("paper", compAnswers)
-    displayLossMes()
+    handleLoss()
   };
   };
 
@@ -367,34 +439,92 @@ handleAnsPap = (compAnswers)=>{
     if(compAnswers==="rock"){
       imageChangeAnimation();
       displayRoundResult("scissors", compAnswers);
-    displayLossMes();
+    handleLoss();
     }
     else if(compAnswers==="paper"){
     imageChangeAnimation();
     displayRoundResult("scissors", compAnswers);
-    displayWinMes();
+    handleWin();
     }
     else {
       imageChangeAnimation();
       displayRoundResult("scissors", compAnswers);
-      displayDrawMes();
+      handleDraw();
     };
     };
 
 // functions that control h2 and display round result message to users. 
 
-const displayDrawMes = ()=>{
+const handleDraw = ()=>{
+  let userPoints=1;
+  let compPoints=1;
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Ahh drat it's a draw!"
   },7000);
+  userAnswers.push(userPoints);
+  compAnswers.push(compPoints);
 };
-const displayLossMes=()=>{
+const handleLoss=()=>{
+  let userPoints=0;
+  let compPoints=2;
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Ahh no you lost!"
   },7000);
+  userAnswers.push(userPoints);
+  compAnswers.push(compPoints);
 };
-const displayWinMes=()=>{
+const handleWin=()=>{
+  let userPoints=2;
+  let compPoints=0;
   setTimeout(()=>{
     headings.instrWrap.firstChild.innerText="Victory is yours!"
   },7000);
+  userAnswers.push(userPoints);
+  compAnswers.push(compPoints);
 };
+
+const runOneRound = (userSel)=>{
+  const userAns= userSel.target.id
+  const compAns = generateCompAns();
+  animations.removeZoom();
+  handleChoices(userAns, compAns);
+  createResetButton();
+}
+
+const runThreeRounds = (userSel)=>{
+
+
+ 
+  let compAns = generateCompAns();
+  animations.removeZoom();
+  handleChoices(userSel, compAns);
+console.log(userAnswers);
+console.log(compAnswers);
+adjustScoreBoard(round);
+setTimeout(createNextRoundButton, 8000)
+
+
+}
+
+const adjustScoreBoard=(rounds)=>{
+  let scoreIndex=rounds-1;
+  const userPoints=document.querySelectorAll(".userScore .circle");
+  const compPoints=document.querySelectorAll(".compScore .circle");
+
+  setTimeout(()=>{
+    if(userAnswers[scoreIndex]>compAnswers[scoreIndex]){
+      userPoints[scoreIndex].style="background-color: green";
+      compPoints[scoreIndex].style="background-color: red";
+    }
+    else if(userAnswers[scoreIndex]<compAnswers[scoreIndex]){
+      userPoints[scoreIndex].style="background-color: red";
+      compPoints[scoreIndex].style="background-color: green";
+    }
+    else{
+      userPoints[scoreIndex].style="background-color: orange";
+      compPoints[scoreIndex].style="background-color: orange";
+    }
+  }, 8000)
+
+
+}
