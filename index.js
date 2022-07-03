@@ -228,9 +228,9 @@ const ReplaceRoundButtons= ()=>{
 const resetRound = ()=>{
   setSymbol();
   animations.addZoom();
+  setRoundAmount()
   resetImages();
   removeBtn()
-  setRoundAmount()
 }
 
 const resetImages = ()=>{
@@ -373,6 +373,21 @@ const createNextRoundButton=()=>{
     headings.instrWrap.append(nextRbtn);
 };
 
+const createFinalRoundButton=(userSel)=>{
+
+  const finalRBtn= document.createElement("button");
+  finalRBtn.innerText="Final Round"; 
+  finalRBtn.addEventListener("click", playFinalRound)
+    headings.instrWrap.append(finalRBtn);
+}
+
+const displayResultsbtn =()=>{
+  removeBtn();
+  resultsBtn=document.createElement("button");
+  resultsBtn.innerText("End Game")
+  resultsBtn.addEventListener("click",endGame);
+  headings.instrWrap.append(resultsBtn);
+}
 
 
 const appendButton=(button)=>{
@@ -492,17 +507,23 @@ const runOneRound = (userSel)=>{
 }
 
 const runThreeRounds = (userSel)=>{
-
-
- 
   let compAns = generateCompAns();
   animations.removeZoom();
-  handleChoices(userSel, compAns);
-console.log(userAnswers);
-console.log(compAnswers);
-adjustScoreBoard(round);
-setTimeout(createNextRoundButton, 8000)
+  
 
+  if(round===2){
+    handleChoices(userSel, compAns);
+    adjustScoreBoard(round);  
+   setTimeout(createFinalRoundButton, 8000)
+   }
+   else{
+    handleChoices(userSel, compAns);
+  adjustScoreBoard(round);
+  setTimeout(createNextRoundButton, 8000)
+   
+}
+ console.log(userAnswers);
+ console.log(compAnswers);
 
 }
 
@@ -528,3 +549,33 @@ const adjustScoreBoard=(rounds)=>{
 
 
 }
+
+const playFinalRound= ()=>{
+  resetRound();
+  displayResultsbtn();
+
+}
+
+
+const endGame= ()=>{
+
+if(playerScore>compScore){
+  headings.h1.innerText="Glorious Victory"
+  headings.h2.innerText="congrats you and the Rock, Paper, scissors Master"
+}
+else if(playerScore===compScore){
+  headings.h1.innerText="Rats a Draw"
+  headings.h2.innerText="Dull Draws are no ones cup of team"
+}
+else{
+  headings.h1.innerText="Annilation"
+  headings.h2.innerText="Oh no the computers are on the rise, they outsmarted you!!!"
+}
+
+let playerScore = userAnswers.reduce((ac,cv)=> ac+cv, 0);
+let compScore = compAnswers.reduce((ac,cv)=> ac+cv, 0);
+removeBtn()
+
+
+}
+
