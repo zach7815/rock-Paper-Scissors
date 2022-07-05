@@ -43,6 +43,14 @@ scissLabel: document.querySelector(".scicTitle"),
 }
 }
 
+const animations = {
+  addZoom: ()=>{
+    symbols.symbolCards.forEach(element=>element.classList.add("symbolZoom"));
+  },
+   removeZoom: ()=>{
+    symbols.symbolCards.forEach(element=>element.classList.remove("symbolZoom"));
+  }
+}
 
 
 
@@ -60,40 +68,16 @@ else if(roundType==="threeRounds"){
     userChoice=userSel.target.id;
      runThreeRounds(userChoice);
    }))
-
-
+}
 }
 
-
-
- 
-}
-// // handles both user and computer generated answer; 
-// const processChoices = (userSel) => {
-//   let userAns= userSel.target.id
-//   userAnswers.push(userAns);
-//   let compAns = generateCompAns();
-//   compAnswers.push(compAns)
-//   animations.removeZoom()
-//   console.log(userAnswers);
-//   console.log(compAnswers);
-//   handleChoices(userAns, compAns);
-
-//  }
 
 
 const selectSymbol= ()=>{
   animations.addZoom();
 }
 
-const animations = {
-  addZoom: ()=>{
-    symbols.symbolCards.forEach(element=>element.classList.add("symbolZoom"));
-  },
-   removeZoom: ()=>{
-    symbols.symbolCards.forEach(element=>element.classList.remove("symbolZoom"));
-  }
-}
+
 
 // removes initial event listeners for starting state of game. Avoids game reset
 function handler(_e){
@@ -114,7 +98,7 @@ function gameSequence(){
 function createRounds(){
   let roundSelection=document.createElement("div");
   roundSelection.classList.add("roundSelection");
-  roundSelection.append(createSuddenDeathBtn(), createThreeRndBtn(), createFiveRndBtn());
+  roundSelection.append(createSuddenDeathBtn, createThreeRndBtn, createFiveRndBtn);
   instruction.replaceChildren(roundSelection);
 };
 
@@ -126,50 +110,20 @@ const stopAnimation = ()=>{
 
 
 // creates buttons for round selection
-
-const createSuddenDeathBtn =()=>{
-let  suddenDeathR=document.createElement("button");
- suddenDeathR.innerText="One Round";
- suddenDeathR.classList.add("suddenDeath");
- suddenDeathR.id="suddenDeath";
-suddenDeathR.addEventListener("click",
-function(roundSelection){
-  detectRounds(roundSelection)
+const CreateRounds=(title,className)=>{
+  let button=document.createElement("button");
+  button.innerText=title;
+  button.classList.add(className);
+  button.id=className;
+  button.addEventListener("click", function(roundSelection){
+    detectRounds(roundSelection);
+  });
+  return button;
 }
-);
-return suddenDeathR;
-};
 
-
-const createThreeRndBtn =()=> {
-let   threeRound=document.createElement("button");
-  threeRound.innerText="Three Rounds";
-  threeRound.classList.add("threeRounds");
-  threeRound.id="threeRounds";
- threeRound.addEventListener("click",
- function(roundSelection){
-  detectRounds(roundSelection)
- }
- )
-      return threeRound;
-};
-
-
-
-const createFiveRndBtn =()=>{
-let   fiveRound=document.createElement("button");
-  fiveRound.innerText="Five Rounds";
-  fiveRound.classList.add("fiveRounds");
-  fiveRound.id="fiveRounds";
-  fiveRound.addEventListener("click",
-  function(roundSelection){
-    detectRounds(roundSelection)
-  }
-
-  );
-  return fiveRound;
-
-};
+const createSuddenDeathBtn=CreateRounds("One Round", "suddenDeath");
+const createThreeRndBtn=CreateRounds("Three Rounds", "threeRounds");
+const createFiveRndBtn=CreateRounds("Five Rounds", "fiveRounds");
 
 // detects how many rounds user has chosen to play e.g 1, 3 or five
 function detectRounds(rounds){
@@ -214,9 +168,17 @@ const setThreeRounds = (rounds)=>{
   ReplaceRoundButtons()
   selectSymbol();
   addSymbolListener(rounds);
- 
 
+};
 
+// runs and manages five rounds
+const setFiveRounds=(rounds)=>{
+  headings.h1.innerHTML="Round 1";
+  console.log(rounds.target.id)
+  setSymbol()
+  const totalRounds=5;
+  createScoreBoard(totalRounds)
+  ReplaceRoundButtons()
 };
 
 
@@ -245,15 +207,7 @@ const removeBtn = ()=>{
   headings.instrWrap.removeChild(headings.instrWrap.lastChild)
 }
 
-// runs and manages five rounds
-const setFiveRounds=(rounds)=>{
-  headings.h1.innerHTML="Round 1";
-  console.log(rounds.target.id)
-  setSymbol()
-  const totalRounds=5;
-  createScoreBoard(totalRounds)
-  ReplaceRoundButtons()
-}
+
 
 // produces computer answer
 const generateCompAns=()=>{
@@ -269,6 +223,8 @@ const setRoundAmount =()=>{
   round++
   headings.h1.innerText=`Round ${round}`;
 }
+
+
 createScoreBoard = (roundAmount)=>{
   for(let i=0; i<roundAmount; i++){
     let circle=document.createElement("div");
@@ -354,40 +310,10 @@ const imageChangeAnimation=()=>{
 
 // functions to create buttons after each round
 
-const createResetButton=()=>{
-    const resetBtn = document.createElement("button");
-    resetBtn.innerText="Play Again?";
-    headings.instrWrap.append(resetBtn);
-    headings.instrWrap.addEventListener("click", ()=>{
-      window.location.reload(false);
-    })
-  
+const resetGame = ()=>{
+  window.location.reload(false);
 }
 
-
-
-const createNextRoundButton=()=>{
-    const nextRbtn= document.createElement("button");
-    nextRbtn.innerText="Next Round"; 
-    nextRbtn.addEventListener("click", resetRound) 
-    headings.instrWrap.append(nextRbtn);
-};
-
-const createFinalRoundButton=(userSel)=>{
-
-  const finalRBtn= document.createElement("button");
-  finalRBtn.innerText="Final Round"; 
-  finalRBtn.addEventListener("click", playFinalRound)
-    headings.instrWrap.append(finalRBtn);
-}
-
-const displayResultsbtn =()=>{
-  removeBtn();
-  resultsBtn=document.createElement("button");
-  resultsBtn.innerText("End Game")
-  resultsBtn.addEventListener("click",endGame);
-  headings.instrWrap.append(resultsBtn);
-}
 
 
 const appendButton=(button)=>{
@@ -579,3 +505,18 @@ removeBtn()
 
 }
 
+displayResultsbtn=()=>{
+  alert("result")
+}
+
+const createButton=( buttonText, buttonFunction)=>{
+  let button=document.createElement("button");
+  button.innerText(buttonText)
+  button.addEventListener("click",buttonFunction);
+  headings.instrWrap.append(button);
+}
+
+const displayResultsbtn= createButton("Show Results", endGame);
+const createNextRoundButton= createButton("Next Round", resetRound);
+const createResetButton = createButton("Reset Game", resetGame);
+const createFinalRoundButton = ("Final Round", playFinalRound);
