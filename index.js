@@ -4,16 +4,14 @@ const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false));
 let round = 0;
+const userAnswers = [];
+const compAnswers =[];
 
 const symbolSrcs = {
   rock:"./images/rock.png",
   paper:"./images/paper.png",
   scissors:"./images/scissors.png",
 }
-
-
-const userAnswers = [];
-const compAnswers =[];
 
 const headings= {
   h1: document.querySelector(".headline"),
@@ -52,25 +50,32 @@ const animations = {
   }
 }
 
+// Manage text changes. 
 
-
-addSymbolListener= (rounds)=>{
-let roundType= rounds.target.id;
-console.log(rounds.target.id)
-if (roundType==="suddenDeath"){
-  symbols.symbolCards.forEach(element=>element.addEventListener("click", (userSel)=>{
-   userChoice=userSel.target.id;
-    runOneRound(userSel)
-  }))
-}
-else if(roundType==="threeRounds"){
-  symbols.symbolCards.forEach(element=>element.addEventListener("click", (userSel)=>{
-    userChoice=userSel.target.id;
-     runThreeRounds(userChoice);
-   }))
-}
+const changeH1Text= (string, styleClass) => {
+  headings.h1.innerText=string;
+  headings.h1.classList.add(styleClass);
 }
 
+const changeH2Text =(string)=>{
+  headings.h2.innerText=string;
+}
+displayRoundMessage = (string)=>{
+  headings.instrWrap.firstChild.innerText=string;
+}
+
+
+const playARound = ()=>{
+    symbols.symbolCards.forEach(element=>element.addEventListener("click", (userSel)=>{
+     userChoice=userSel.target.id;
+     compChoice=generateCompAns();
+     handleChoices(userChoice, compChoice);
+     animations.removeZoom()
+     endGame()
+
+    }))
+
+}
 
 
 const selectSymbol= ()=>{
@@ -78,12 +83,10 @@ const selectSymbol= ()=>{
 }
 
 
-
 // removes initial event listeners for starting state of game. Avoids game reset
 function handler(_e){
 interactions.forEach(e=> body.removeEventListener(e, handler))
 gameSequence()
-
 }
 
 // initiates game sequence
@@ -110,7 +113,7 @@ const stopAnimation = ()=>{
 
 
 // creates buttons for round selection
-const CreateRounds=(title,className)=>{
+const createRoundButton=(title,className)=>{
   let button=document.createElement("button");
   button.innerText=title;
   button.classList.add(className);
@@ -121,20 +124,14 @@ const CreateRounds=(title,className)=>{
   return button;
 }
 
-const createSuddenDeathBtn=CreateRounds("One Round", "suddenDeath");
-const createThreeRndBtn=CreateRounds("Three Rounds", "threeRounds");
-const createFiveRndBtn=CreateRounds("Five Rounds", "fiveRounds");
+const createSuddenDeathBtn=createRoundButton("One Round", "suddenDeath");
+const createThreeRndBtn=createRoundButton("Three Rounds", "threeRounds");
+const createFiveRndBtn=createRoundButton("Five Rounds", "fiveRounds");
 
 // detects how many rounds user has chosen to play e.g 1, 3 or five
 function detectRounds(rounds){
-  if(rounds.target.matches("#suddenDeath")){
-    setSuddenDeath(rounds)
-
-  }
-  else if (rounds.target.matches("#threeRounds")){
-    setThreeRounds(rounds)
-  }
-  else {setFiveRounds(rounds)}
+  roundType=rounds.target.id;
+  setRounds(rounds)
 }
 
 // provides user instruction to choose symbol
@@ -145,44 +142,37 @@ function setSymbol(){
 }
 
 
-
 // runs and manages sudden death round
-const setSuddenDeath = (rounds)=>{
-  headings.h1.innerHTML="Sudden Death!";
-  headings.h1.classList.add("suddenDH1");
+const setRounds=(rounds)=>{
+  roundType===rounds.target.id;
+  replaceRoundButtons()
   setSymbol()
-  headings.instrWrap.firstChild.replaceWith(headings.h2);
-  selectSymbol();
-  addSymbolListener(rounds)
+  selectSymbol()
   
+  if(roundType==="suddenDeath"){
+    changeH1Text("Sudden Death", "suddenDH1")
+    playARound()
+  }
+  else if(roundType==="threeRounds"){
+    let roundAmount=3;
+    createScoreBoard(roundAmount)
+  }
+  else{
+    let roundAmount=5;
+    createScoreBoard(roundAmount);
+  }
 }
 
+const manageRounds=(roundAmount)=>{
 
+  if (roundAmount===1){
+    
+  }
+createResetButton()
 
-// runs and manages three round answer
-const setThreeRounds = (rounds)=>{
- setRoundAmount();
- totalRounds=3;
- createScoreBoard(totalRounds)
-  setSymbol();
-  ReplaceRoundButtons()
-  selectSymbol();
-  addSymbolListener(rounds);
+}
 
-};
-
-// runs and manages five rounds
-const setFiveRounds=(rounds)=>{
-  headings.h1.innerHTML="Round 1";
-  console.log(rounds.target.id)
-  setSymbol()
-  const totalRounds=5;
-  createScoreBoard(totalRounds)
-  ReplaceRoundButtons()
-};
-
-
-const ReplaceRoundButtons= ()=>{
+const replaceRoundButtons= ()=>{
   headings.instrWrap.firstChild.replaceWith(headings.h2);
 
 }
@@ -203,7 +193,7 @@ const resetImages = ()=>{
   symbols.scissorsSymbol.scissLabel.innerText="scissors";
 }
 
-const removeBtn = ()=>{
+const removeChildElement = ()=>{
   headings.instrWrap.removeChild(headings.instrWrap.lastChild)
 }
 
@@ -219,9 +209,9 @@ const generateCompAns=()=>{
 
 
 // manages page appearance depending on user action and game progression
-const setRoundAmount =()=>{
+const increaseRounds =()=>{
   round++
-  headings.h1.innerText=`Round ${round}`;
+  changeH1Text(`Round ${round}`);
 }
 
 
@@ -269,13 +259,13 @@ const imageChangeAnimation=()=>{
   ,2000 )
  }
 
-
+  
 // plays game animation once user has inputted a result. 
 
  function changeStyle(images, imageLabel){
 
-     images.forEach(image=> image.src="./images/paper.png");
-         imageLabel.forEach(imageLabels=>imageLabels.innerText="paper");
+        images.forEach(image=> image.src="./images/paper.png");
+       imageLabel.forEach(imageLabels=>imageLabels.innerText="paper");
        setTimeout(()=>{
      images.forEach(image=> image.src="./images/scissors.png");
          imageLabel.forEach(imageLabels=>imageLabels.innerText="scissors");
@@ -284,18 +274,13 @@ const imageChangeAnimation=()=>{
   imageLabel.forEach(imageLabels=>imageLabels.innerText="shoot!");
    },1000);
 
-
    },1000);
-
-
 
  }
 
 // sets user and comp choice after game animation has played. 
 
  const displayRoundResult=(userChoice,compChoice)=>{
-
-
   setTimeout(()=>{
     symbols.rockSymbol.rocImage.src=symbolSrcs[userChoice];
     symbols.rockSymbol.rocImage.style="display:block";
@@ -303,7 +288,6 @@ const imageChangeAnimation=()=>{
     symbols.scissorsSymbol.scissImage.src=symbolSrcs[compChoice];
     symbols.scissorsSymbol.scissImage.style="display:block";
     symbols.scissorsSymbol.scissLabel.innerText=compChoice;
-   
   }, 7000);
 
  };
@@ -314,17 +298,9 @@ const resetGame = ()=>{
   window.location.reload(false);
 }
 
-
-
 const appendButton=(button)=>{
   headings.instrWrap.append(button); 
 }
-
-
-
-
-// create function to play next round. 
-
 
 // functions to process and deal with both user and computer answers. 
 
@@ -396,127 +372,100 @@ handleAnsPap = (compAnswers)=>{
 
 // functions that control h2 and display round result message to users. 
 
+const RecordScores =(userPoints, compPoints)=>{
+  userAnswers.push(userPoints)
+  compAnswers.push(compPoints)
+}
+
 const handleDraw = ()=>{
   let userPoints=1;
   let compPoints=1;
+  
   setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Ahh drat it's a draw!"
+    displayRoundMessage("Ahh drat it's a draw!")
   },7000);
-  userAnswers.push(userPoints);
-  compAnswers.push(compPoints);
+  RecordScores(userPoints, compPoints);
 };
 const handleLoss=()=>{
   let userPoints=0;
   let compPoints=2;
   setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Ahh no you lost!"
+  displayRoundMessage("Ahh no you lost!")
   },7000);
-  userAnswers.push(userPoints);
-  compAnswers.push(compPoints);
+  RecordScores(userPoints, compPoints);
 };
 const handleWin=()=>{
   let userPoints=2;
   let compPoints=0;
   setTimeout(()=>{
-    headings.instrWrap.firstChild.innerText="Victory is yours!"
+    displayRoundMessage("Victory is yours!")
   },7000);
-  userAnswers.push(userPoints);
-  compAnswers.push(compPoints);
+  RecordScores(userPoints, compPoints);
+  
 };
 
-const runOneRound = (userSel)=>{
-  const userAns= userSel.target.id
-  const compAns = generateCompAns();
-  animations.removeZoom();
-  handleChoices(userAns, compAns);
-  createResetButton();
-}
-
-const runThreeRounds = (userSel)=>{
-  let compAns = generateCompAns();
-  animations.removeZoom();
-  
-
-  if(round===2){
-    handleChoices(userSel, compAns);
-    adjustScoreBoard(round);  
-   setTimeout(createFinalRoundButton, 8000)
-   }
-   else{
-    handleChoices(userSel, compAns);
-  adjustScoreBoard(round);
-  setTimeout(createNextRoundButton, 8000)
-   
-}
- console.log(userAnswers);
- console.log(compAnswers);
-
-}
 
 const adjustScoreBoard=(rounds)=>{
   let scoreIndex=rounds-1;
   const userPoints=document.querySelectorAll(".userScore .circle");
   const compPoints=document.querySelectorAll(".compScore .circle");
+  const draw= "background-color: orange";
+  const win ="background-color: green";
+  const loss = "background-color: red";
+  compScore =compPoints[scoreIndex];
+  userScore= userPoints[scoreIndex];
 
   setTimeout(()=>{
-    if(userAnswers[scoreIndex]>compAnswers[scoreIndex]){
-      userPoints[scoreIndex].style="background-color: green";
-      compPoints[scoreIndex].style="background-color: red";
+    if(userScore>compScore){
+      userScore.style=win;
+      compScore.style=loss;
     }
-    else if(userAnswers[scoreIndex]<compAnswers[scoreIndex]){
-      userPoints[scoreIndex].style="background-color: red";
-      compPoints[scoreIndex].style="background-color: green";
+    else if(userScore<compScore){
+      userScore.style=loss;
+      compScore.style=win;
     }
     else{
-      userPoints[scoreIndex].style="background-color: orange";
-      compPoints[scoreIndex].style="background-color: orange";
+      userScore.style=draw;
+      compScore.style=draw;
     }
   }, 8000)
 
 
 }
 
-const playFinalRound= ()=>{
-  resetRound();
-  displayResultsbtn();
-
-}
-
-
 const endGame= ()=>{
+symbols.symbolCards.forEach(e=>e.removeEventListener("click", playARound))
+const calculateScore = (pointsArray)=>{
+  return pointsArray.reduce((ac,cv)=> ac+cv,0);
+ }
+  const playerScore = calculateScore(userAnswers);
+  const compScore= calculateScore(compAnswers);
+  console.log(playerScore);
+  console.log(compScore)
 
 if(playerScore>compScore){
-  headings.h1.innerText="Glorious Victory"
-  headings.h2.innerText="congrats you and the Rock, Paper, scissors Master"
+  changeH1Text("Glorious Victory")
+  displayRoundMessage("Congrats you and the Rock, Paper, scissors Master")
 }
 else if(playerScore===compScore){
-  headings.h1.innerText="Rats a Draw"
-  headings.h2.innerText="Dull Draws are no ones cup of team"
+  changeH1Text("Rats a Draw")
+  displayRoundMessage("Dull Draws are no one's cup of team")
 }
 else{
-  headings.h1.innerText="Annilation"
-  headings.h2.innerText="Oh no the computers are on the rise, they outsmarted you!!!"
+  changeH1Text("Annilation")
+  displayRoundMessage("Oh no the computers are on the rise, they outsmarted you!!!")
 }
-
-let playerScore = userAnswers.reduce((ac,cv)=> ac+cv, 0);
-let compScore = compAnswers.reduce((ac,cv)=> ac+cv, 0);
-removeBtn()
-
-
-}
-
-displayResultsbtn=()=>{
-  alert("result")
 }
 
 const createButton=( buttonText, buttonFunction)=>{
   let button=document.createElement("button");
-  button.innerText(buttonText)
+  button.innerText= buttonText
   button.addEventListener("click",buttonFunction);
   headings.instrWrap.append(button);
 }
 
-const displayResultsbtn= createButton("Show Results", endGame);
-const createNextRoundButton= createButton("Next Round", resetRound);
-const createResetButton = createButton("Reset Game", resetGame);
-const createFinalRoundButton = ("Final Round", playFinalRound);
+const displayResultsbtn= ()=>{createButton("Show Results", endGame)};
+const createNextRoundButton= ()=>{createButton("Next Round", resetRound)};
+const createResetButton = ()=>{createButton("Reset Game", resetGame)};
+const createFinalRoundButton =()=> {createButton("Final Round", playFinalRound)};
+
