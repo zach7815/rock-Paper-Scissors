@@ -17,14 +17,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 65vh;
   flex-direction: column;
 }
 
 .innerWrapper {
   display: flex;
   gap: 3rem;
-  align-items: baseline;
+  align-items: end;
 }
 .instrWrapper{
   text-align: center;
@@ -98,172 +98,7 @@ body {
 
 
 
-/* button creation */
 
-.suddenDeath {
-  box-shadow: inset 0px 1px 0px 0px #f7c5c0;
-  background: linear-gradient(to bottom, #fc8d83 5%, #ff1100 100%);
-  background-color: #fc8d83;
-  border-radius: 6px;
-  border: 1px solid #d83526;
-  display: inline-block;
-  cursor: pointer;
-  color: #ffffff;
-  font-family: Arial;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 6px 24px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #b23e35;
-}
-.suddenDeath:hover {
-  background: linear-gradient(to bottom, #f10 5%, #fc8d83 100%);
-  background-color: #f10;
-}
-.suddenDeath:active {
-  position: relative;
-  top: 1px;
-}
-
-.threeRounds {
-  box-shadow: inset 0px 1px 0px 0px #443fd9;
-  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
-  background-color: #89c403;
-  border-radius: 6px;
-  border: 1px solid #a6e048;
-  display: inline-block;
-  cursor: pointer;
-  color: #ffffff;
-  font-family: Arial;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 6px 24px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #528009;
-}
-.threeRounds:hover {
-  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
-  background-color: #77a809;
-}
-.threeRounds:active {
-  position: relative;
-  top: 1px;
-}
-
-.fiveRounds {
-  box-shadow: 0px 1px 0px 0px #fff6af;
-  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-  background-color: #ffec64;
-  border-radius: 6px;
-  border: 1px solid #ffaa22;
-  display: inline-block;
-  cursor: pointer;
-  color: #333333;
-  font-family: Arial;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 6px 24px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #ffee66;
-}
-.fiveRounds:hover {
-  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-  background-color: #ffab23;
-}
-.fiveRounds:active {
-  position: relative;
-  top: 1px;
-}
-
-.roundSelection {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-/* JS classes: display score counter score counter */
-
-.outterScoreWrap {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.scoreContainer {
-  display: flex;
-  gap: 1rem;
-  margin: 2rem;
-}
-
-.toggleScoreDisplay {
-  display: none;
-}
-
-.circle {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  border: solid 2px;
-}
-
-.toggleBG {
-  background-color: green;
-}
-
-/* JS classes */
-
-.transitionSlide{
-  background-color:#26096e;
-  height: 100vh;
-  z-index: 10;
-  position:fixed;
-
-
-}
-.transitionSlideFade{
-  width: 100vw;
-  transition: 2s;
-
-}
-
-.hideMiddleImg{
-  display:none;
-}
-.adjustInnerWrap{
-  gap:20rem;
-}
-
-.stopAnimation {
-  animation: none;
-}
-.suddenDH1{
-  color: red;
-}
-.selectSymbol{
-  text-align: center;
-}
-
-.symbolZoom:hover
-{
-  -webkit-transform: scale(1.25); /* Safari 3-8 */
-  transform: scale(1.25);
-  border: #89c403 solid 2px;
-  cursor: pointer;
-}
-
-
-
-.papCont{
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 2s linear;
-}
-
-.papContFade{
-  visibility: hidden;
- opacity: 0;
- transition: visibility 0s 1s, opacity 1s linear;
-}
 
 /* media queries */
 @media screen and (max-width: 600px) {
@@ -407,4 +242,178 @@ body {
   .symbol {
     width: 40%;
   }
+}
+
+/* button creation */
+
+.suddenDeath {
+  box-shadow: inset 0px 1px 0px 0px #f7c5c0;
+  background: linear-gradient(to bottom, #fc8d83 5%, #ff1100 100%);
+  background-color: #fc8d83;
+  border-radius: 6px;
+  border: 1px solid #d83526;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #b23e35;
+}
+.suddenDeath:hover {
+  background: linear-gradient(to bottom, #f10 5%, #fc8d83 100%);
+  background-color: #f10;
+}
+.suddenDeath:active {
+  position: relative;
+  top: 1px;
+}
+
+.threeRounds {
+  box-shadow: inset 0px 1px 0px 0px #443fd9;
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  background-color: #89c403;
+  border-radius: 6px;
+  border: 1px solid #a6e048;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #528009;
+}
+.threeRounds:hover {
+  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+  background-color: #77a809;
+}
+.threeRounds:active {
+  position: relative;
+  top: 1px;
+}
+
+.fiveRounds {
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border-radius: 6px;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffee66;
+}
+.fiveRounds:hover {
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
+}
+.fiveRounds:active {
+  position: relative;
+  top: 1px;
+}
+
+.roundSelection {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* JS classes: display score counter score counter */
+
+.outterScoreWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.styleScoreCont {
+  justify-content: space-between;
+}
+
+.styleScores{
+  display: flex;
+  gap:1rem;
+}
+
+.circle {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: solid 2px;
+}
+
+.toggleBG {
+  background-color: green;
+}
+
+/* JS classes */
+
+.transitionSlide{
+  background-color:#26096e;
+  height: 100vh;
+  z-index: 10;
+  position:fixed;
+
+
+}
+.transitionSlideFade{
+  width: 100vw;
+  transition: 2s;
+
+}
+
+.hideMiddleImg{
+  display:none;
+}
+.adjustInnerWrap{
+  gap:20rem;
+}
+
+
+.suddenDH1{
+  color: red;
+}
+.selectSymbol{
+  text-align: center;
+}
+
+.symbolZoom:hover
+{
+  -webkit-transform: scale(1.25); /* Safari 3-8 */
+  transform: scale(1.25);
+  border: #89c403 solid 2px;
+  cursor: pointer;
+}
+
+
+
+.papCont{
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 2s linear;
+}
+
+.papContFade{
+  visibility: hidden;
+ opacity: 0;
+ transition: visibility 0s 1s, opacity 1s linear;
+}
+
+.stopAnimation {
+  animation: none;
 }
