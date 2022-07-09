@@ -4,6 +4,7 @@ const instruction = document.querySelector(".instrWrapper");
 const interactions= ["click", "keydown"];
 interactions.forEach(evt=>body.addEventListener(evt, handler, false));
 let round = 0;
+let roundAmount;
 const userAnswers = [];
 const compAnswers =[];
 
@@ -70,12 +71,11 @@ const playARound = ()=>{
      userChoice=userSel.target.id;
      compChoice=generateCompAns();
      handleChoices(userChoice, compChoice);
-     animations.removeZoom()
-     endGame()
-
+     animations.removeZoom();
     }))
 
-}
+};
+
 
 
 const selectSymbol= ()=>{
@@ -131,7 +131,7 @@ const createFiveRndBtn=createRoundButton("Five Rounds", "fiveRounds");
 // detects how many rounds user has chosen to play e.g 1, 3 or five
 function detectRounds(rounds){
   roundType=rounds.target.id;
-  setRounds(rounds)
+  setRounds(rounds);
 }
 
 // provides user instruction to choose symbol
@@ -145,44 +145,46 @@ function setSymbol(){
 // runs and manages sudden death round
 const setRounds=(rounds)=>{
   roundType===rounds.target.id;
-  replaceRoundButtons()
-  setSymbol()
-  selectSymbol()
+  replaceRoundButtons();
+  setSymbol();
+  selectSymbol();
   
   if(roundType==="suddenDeath"){
+     roundAmount =1;
     changeH1Text("Sudden Death", "suddenDH1")
-    playARound()
+   playARound();
   }
   else if(roundType==="threeRounds"){
-    let roundAmount=3;
-    createScoreBoard(roundAmount)
+     roundAmount=3;
+    createScoreBoard();
+    increaseRounds();
+    playARound();
   }
   else{
-    let roundAmount=5;
-    createScoreBoard(roundAmount);
+     roundAmount=5;
+    createScoreBoard();
+    increaseRounds();
+    playARound();
   }
 }
 
-const manageRounds=(roundAmount)=>{
-
-  if (roundAmount===1){
-    
-  }
-createResetButton()
-
-}
 
 const replaceRoundButtons= ()=>{
   headings.instrWrap.firstChild.replaceWith(headings.h2);
+}
 
+
+const removeBtn = ()=>{
+headings.instrWrap.removeChild(headings.instrWrap.lastChild)
 }
 
 const resetRound = ()=>{
   setSymbol();
   animations.addZoom();
-  setRoundAmount()
   resetImages();
-  removeBtn()
+  increaseRounds();
+  removeBtn();
+
 }
 
 const resetImages = ()=>{
@@ -194,7 +196,7 @@ const resetImages = ()=>{
 }
 
 const removeChildElement = ()=>{
-  headings.instrWrap.removeChild(headings.instrWrap.lastChild)
+  headings.instrWrap.removeChild(headings.instrWrap.lastChild);
 }
 
 
@@ -215,7 +217,7 @@ const increaseRounds =()=>{
 }
 
 
-createScoreBoard = (roundAmount)=>{
+createScoreBoard = ()=>{
   for(let i=0; i<roundAmount; i++){
     let circle=document.createElement("div");
     circle.classList.add("circle");
@@ -237,7 +239,7 @@ createScoreBoard = (roundAmount)=>{
 // adds animation to start of game state. 
 
  function bounceElement(element){
- element.forEach(item => item.classList.add("animation"))
+ element.forEach(item => item.classList.add("animation"));
  };
 
 // starts game animation
@@ -253,7 +255,7 @@ const imageChangeAnimation=()=>{
    setTimeout(()=>{
    bounceElement(imageCont);
    setTimeout(()=>{
-     changeStyle(symbol, symbolLabel)
+     changeStyle(symbol, symbolLabel);
    },1000);
      }
   ,2000 )
@@ -304,9 +306,10 @@ const appendButton=(button)=>{
 
 // functions to process and deal with both user and computer answers. 
 
-const handleChoices = (userAns, compAns)=>{
+const handleChoices = (userAns, compAns, )=>{
 if (userAns ==="rock"){
-handleAnsRock(compAns);
+handleAnsRock(compAns, );
+
 }
 else if (userAns ==="paper"){
   handleAnsPap(compAns);
@@ -319,12 +322,12 @@ else {
 const handleAnsRock = (compAnswers)=>{
 if(compAnswers==="rock"){
   imageChangeAnimation();
-  displayRoundResult("rock", compAnswers)
+  displayRoundResult("rock", compAnswers);
 handleDraw();
 }
 else if(compAnswers==="paper"){
 imageChangeAnimation();
-displayRoundResult("rock", compAnswers)
+displayRoundResult("rock", compAnswers);
 handleLoss();
 }
 else {
@@ -347,8 +350,8 @@ handleAnsPap = (compAnswers)=>{
   }
   else {
     imageChangeAnimation();
-    displayRoundResult("paper", compAnswers)
-    handleLoss()
+    displayRoundResult("paper", compAnswers);
+    handleLoss();
   };
   };
 
@@ -373,62 +376,67 @@ handleAnsPap = (compAnswers)=>{
 // functions that control h2 and display round result message to users. 
 
 const RecordScores =(userPoints, compPoints)=>{
-  userAnswers.push(userPoints)
-  compAnswers.push(compPoints)
+  userAnswers.push(userPoints);
+  compAnswers.push(compPoints);
 }
 
-const handleDraw = ()=>{
+const handleDraw = (roundAmount)=>{
   let userPoints=1;
   let compPoints=1;
   
   setTimeout(()=>{
-    displayRoundMessage("Ahh drat it's a draw!")
+    displayRoundMessage("Ahh drat it's a draw!");
   },7000);
   RecordScores(userPoints, compPoints);
+  adjustScoreBoard(round)
+  continueGame(round)
 };
 const handleLoss=()=>{
   let userPoints=0;
   let compPoints=2;
   setTimeout(()=>{
-  displayRoundMessage("Ahh no you lost!")
+  displayRoundMessage("Ahh no you lost!");
   },7000);
   RecordScores(userPoints, compPoints);
+  adjustScoreBoard(round)
+  continueGame(round)
 };
 const handleWin=()=>{
   let userPoints=2;
   let compPoints=0;
   setTimeout(()=>{
-    displayRoundMessage("Victory is yours!")
+    displayRoundMessage("Victory is yours!");
   },7000);
   RecordScores(userPoints, compPoints);
-  
+  adjustScoreBoard(round)
+  continueGame(round, roundAmount)
 };
 
 
-const adjustScoreBoard=(rounds)=>{
-  let scoreIndex=rounds-1;
+const adjustScoreBoard=(round)=>{
+  let scoreIndex=round-1;
   const userPoints=document.querySelectorAll(".userScore .circle");
   const compPoints=document.querySelectorAll(".compScore .circle");
   const draw= "background-color: orange";
   const win ="background-color: green";
   const loss = "background-color: red";
-  compScore =compPoints[scoreIndex];
-  userScore= userPoints[scoreIndex];
+  compScore =compAnswers[scoreIndex];
+  userScore= userAnswers[scoreIndex];
 
   setTimeout(()=>{
     if(userScore>compScore){
-      userScore.style=win;
-      compScore.style=loss;
+      userPoints[scoreIndex].style=win;
+      compPoints[scoreIndex].style=loss;
     }
     else if(userScore<compScore){
-      userScore.style=loss;
-      compScore.style=win;
+      userPoints[scoreIndex].style=loss;
+      compPoints[scoreIndex].style=win;
     }
     else{
-      userScore.style=draw;
-      compScore.style=draw;
+      userPoints[scoreIndex].style=draw;
+      compPoints[scoreIndex].style=draw;
     }
-  }, 8000)
+  }, 8000);
 
 
 }
@@ -440,32 +448,42 @@ const calculateScore = (pointsArray)=>{
  }
   const playerScore = calculateScore(userAnswers);
   const compScore= calculateScore(compAnswers);
-  console.log(playerScore);
-  console.log(compScore)
+
 
 if(playerScore>compScore){
-  changeH1Text("Glorious Victory")
-  displayRoundMessage("Congrats you and the Rock, Paper, scissors Master")
+  changeH1Text("Glorious Victory");
+  displayRoundMessage("Congrats you are the Rock, Paper, Scissors Master");
 }
 else if(playerScore===compScore){
-  changeH1Text("Rats a Draw")
-  displayRoundMessage("Dull Draws are no one's cup of team")
+  changeH1Text("Rats a Draw");
+  displayRoundMessage("Dull Draws are no one's cup of team");
 }
 else{
   changeH1Text("Annilation")
-  displayRoundMessage("Oh no the computers are on the rise, they outsmarted you!!!")
+  displayRoundMessage("Oh no the computers are on the rise, they outsmarted you!");
 }
+removeBtn();
+setTimeout(createResetButton,8000);
 }
 
-const createButton=( buttonText, buttonFunction)=>{
+const createButton= async( buttonText, buttonFunction, roundAmount)=>{
   let button=document.createElement("button");
-  button.innerText= buttonText
+  button.innerText= buttonText;
   button.addEventListener("click",buttonFunction);
   headings.instrWrap.append(button);
 }
 
 const displayResultsbtn= ()=>{createButton("Show Results", endGame)};
-const createNextRoundButton= ()=>{createButton("Next Round", resetRound)};
+const createNextRoundButton= ()=>{createButton("Next Round",resetRound)};
 const createResetButton = ()=>{createButton("Reset Game", resetGame)};
-const createFinalRoundButton =()=> {createButton("Final Round", playFinalRound)};
 
+const continueGame = ()=>{
+  let nextRoundValue =round+1;
+ if(nextRoundValue===roundAmount+1){
+setTimeout(displayResultsbtn, 8000);
+}
+else {
+  setTimeout(createNextRoundButton,8000);
+}
+
+}
