@@ -306,6 +306,8 @@ const appendButton=(button)=>{
 
 // functions to process and deal with both user and computer answers. 
 
+
+
 const handleChoices = (userAns, compAns, )=>{
 if (userAns ==="rock"){
 handleAnsRock(compAns, );
