@@ -45,10 +45,7 @@ body {
 .optHead {
   font-size: 2rem;
 }
-.papTitle {
-  position: relative;
-  left: 1.5rem;
-}
+
 
 .symbol {
   width: 80%;
@@ -112,9 +109,6 @@ body {
     width: 55%;
   }
 
-  /* .outerWrapper {
-    height: 65vh;
-  } */
   .rocCont {
     animation: vibrate1 4s ease-in-out infinite;
   }
@@ -126,6 +120,7 @@ body {
     animation: vibrate3 4s ease-in-out infinite;
     animation-delay: 2.8s;
   }
+ 
 
   @keyframes vibrate1 {
     0%,
@@ -212,37 +207,7 @@ body {
   }
 }
 
-@media screen and (max-width: 810px) {
-  img {
-    width: 80%;
-  }
 
-  .innerWrapper {
-    gap: 0;
-  }
-  .initGame span {
-    display: none;
-  }
-
-  .initGame::after {
-    content: "tap to continue";
-  }
-}
-
-
-@media screen and (max-width: 390px) {
-  .symbolCard,
-  .symbol {
-    width: 50%;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .symbolCard,
-  .symbol {
-    width: 40%;
-  }
-}
 
 /* button creation */
 
@@ -351,8 +316,8 @@ body {
 }
 
 .circle {
-  height: 50px;
-  width: 50px;
+  height: 3.125rem;
+  width: 3.125rem;
   border-radius: 50%;
   border: solid 2px;
 }
@@ -363,27 +328,9 @@ body {
 
 /* JS classes */
 
-.transitionSlide{
-  background-color:#26096e;
-  height: 100vh;
-  z-index: 10;
-  position:fixed;
-
-
-}
-.transitionSlideFade{
-  width: 100vw;
-  transition: 2s;
-
-}
-
-.hideMiddleImg{
-  display:none;
-}
 .adjustInnerWrap{
   gap:20rem;
 }
-
 
 .suddenDH1{
   color: red;
@@ -400,8 +347,6 @@ body {
   cursor: pointer;
 }
 
-
-
 .papCont{
   visibility: visible;
   opacity: 1;
@@ -416,4 +361,64 @@ body {
 
 .stopAnimation {
   animation: none;
+}
+
+@media screen and (max-width: 810px) {
+  img {
+    width: 80%;
+  }
+
+  .innerWrapper {
+    gap: 0;
+  }
+  .initGame span {
+    display: none;
+  }
+
+  .initGame::after {
+    content: "tap to continue";
+  }
+ 
+}
+@media screen and (max-width:429px) {
+  .headline{
+    font-size: 1.25rem;
+  }
+  
+  .optHead, .initGame, .selectSymbol{
+    font-size: 1rem;
+  }
+
+}
+
+
+
+@media screen and (max-width: 390px) {
+  .symbolCard,
+  .symbol {
+    width: 50%;
+  }
+  .headline{
+    font-size: 1.5rem;
+  }
+
+  .scoreContainer{
+    margin-bottom: 3rem;
+  }
+
+  .circle{
+    width:1.125rem;
+    height: 1.125rem;
+  }
+.optHead, .initGame, .selectSymbol{
+  font-size: 1.25rem;
+}
+
+}
+
+@media screen and (max-width: 375px) {
+  .symbolCard,
+  .symbol {
+    width: 40%;
+  }
 }

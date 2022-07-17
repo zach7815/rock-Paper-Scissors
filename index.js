@@ -6,7 +6,7 @@ interactions.forEach(evt=>body.addEventListener(evt, handler, false));
 let round = 0;
 let roundAmount;
 const userAnswers = [];
-const compAnswers =[];
+const compAns =[];
 
 const symbolSrcs = {
   rock:"./images/rock.png",
@@ -153,6 +153,7 @@ const setRounds=(rounds)=>{
      roundAmount =1;
     changeH1Text("Sudden Death", "suddenDH1")
    playARound();
+   round++
   }
   else if(roundType==="threeRounds"){
      roundAmount=3;
@@ -285,10 +286,10 @@ const imageChangeAnimation=()=>{
  const displayRoundResult=(userChoice,compChoice)=>{
   setTimeout(()=>{
     symbols.rockSymbol.rocImage.src=symbolSrcs[userChoice];
-    symbols.rockSymbol.rocImage.style="display:block";
+    symbols.rockSymbol.rocImage.style="display:initial";
     symbols.rockSymbol.rocLabel.innerText=userChoice;
     symbols.scissorsSymbol.scissImage.src=symbolSrcs[compChoice];
-    symbols.scissorsSymbol.scissImage.style="display:block";
+    symbols.scissorsSymbol.scissImage.style="display:initial";
     symbols.scissorsSymbol.scissLabel.innerText=compChoice;
   }, 7000);
 
@@ -310,79 +311,71 @@ const appendButton=(button)=>{
 
 const handleChoices = (userAns, compAns, )=>{
 if (userAns ==="rock"){
-handleAnsRock(compAns, );
+  if(compAns==="rock"){
+    imageChangeAnimation();
+    displayRoundResult("rock", compAns);
+  handleDraw();
+  }
+  else if(compAns==="paper"){
+  imageChangeAnimation();
+  displayRoundResult("rock", compAns);
+  handleLoss();
+  }
+  else {
+    imageChangeAnimation();
+    displayRoundResult("rock", compAns);
+    handleWin();
+  };
 
 }
 else if (userAns ==="paper"){
-  handleAnsPap(compAns);
-}
-else {
-  handleAnsScissors(compAns);
-};
-};
-
-const handleAnsRock = (compAnswers)=>{
-if(compAnswers==="rock"){
-  imageChangeAnimation();
-  displayRoundResult("rock", compAnswers);
-handleDraw();
-}
-else if(compAnswers==="paper"){
-imageChangeAnimation();
-displayRoundResult("rock", compAnswers);
-handleLoss();
-}
-else {
-  imageChangeAnimation();
-  displayRoundResult("rock", compAnswers);
-  handleWin();
-};
-};
-
-handleAnsPap = (compAnswers)=>{
-  if(compAnswers==="rock"){
+  if(compAns==="rock"){
     imageChangeAnimation();
-    displayRoundResult("paper", compAnswers);
+    displayRoundResult("paper", compAns);
   handleWin();
   }
-  else if(compAnswers==="paper"){
+  else if(compAns==="paper"){
   imageChangeAnimation();
-  displayRoundResult("paper", compAnswers);
+  displayRoundResult("paper", compAns);
   handleDraw();
   }
   else {
     imageChangeAnimation();
-    displayRoundResult("paper", compAnswers);
+    displayRoundResult("paper", compAns);
     handleLoss();
-  };
   };
 
-  handleAnsScissors = (compAnswers)=>{
-    if(compAnswers==="rock"){
-      imageChangeAnimation();
-      displayRoundResult("scissors", compAnswers);
-    handleLoss();
-    }
-    else if(compAnswers==="paper"){
+}
+else {
+  if(compAns==="rock"){
     imageChangeAnimation();
-    displayRoundResult("scissors", compAnswers);
-    handleWin();
-    }
-    else {
-      imageChangeAnimation();
-      displayRoundResult("scissors", compAnswers);
-      handleDraw();
-    };
-    };
+    displayRoundResult("scissors", compAns);
+  handleLoss();
+  }
+  else if(compAns==="paper"){
+  imageChangeAnimation();
+  displayRoundResult("scissors", compAns);
+  handleWin();
+  }
+  else {
+    imageChangeAnimation();
+    displayRoundResult("scissors", compAns);
+    handleDraw();
+  };
+};
+};
+
+
+
 
 // functions that control h2 and display round result message to users. 
 
 const RecordScores =(userPoints, compPoints)=>{
   userAnswers.push(userPoints);
-  compAnswers.push(compPoints);
+  compAns.push(compPoints);
 }
 
-const handleDraw = (roundAmount)=>{
+const handleDraw = ()=>{
   let userPoints=1;
   let compPoints=1;
   
@@ -410,19 +403,19 @@ const handleWin=()=>{
     displayRoundMessage("Victory is yours!");
   },7000);
   RecordScores(userPoints, compPoints);
-  adjustScoreBoard(round)
-  continueGame(round, roundAmount)
+  adjustScoreBoard()
+  continueGame()
 };
 
 
-const adjustScoreBoard=(round)=>{
+const adjustScoreBoard=()=>{
   let scoreIndex=round-1;
   const userPoints=document.querySelectorAll(".userScore .circle");
   const compPoints=document.querySelectorAll(".compScore .circle");
   const draw= "background-color: orange";
   const win ="background-color: green";
   const loss = "background-color: red";
-  compScore =compAnswers[scoreIndex];
+  compScore =compAns[scoreIndex];
   userScore= userAnswers[scoreIndex];
 
   setTimeout(()=>{
@@ -449,7 +442,7 @@ const calculateScore = (pointsArray)=>{
   return pointsArray.reduce((ac,cv)=> ac+cv,0);
  }
   const playerScore = calculateScore(userAnswers);
-  const compScore= calculateScore(compAnswers);
+  const compScore= calculateScore(compAns);
 
 
 if(playerScore>compScore){
