@@ -34,8 +34,8 @@ This was my take on the classic game Rock-Paper-Scissors. My version includes an
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/zach7815/rock-Paper-Scissors)
-- Live Site URL: [Add live site URL here](https://zach7815.github.io/rock-Paper-Scissors/)
+- Solution URL: [Repository link](https://github.com/zach7815/rock-Paper-Scissors)
+- Live Site URL: [Live Site](https://zach7815.github.io/rock-Paper-Scissors/)
 
 ## My process
 
