@@ -100,7 +100,7 @@ body {
 /* media queries */
 @media screen and (max-width: 600px) {
   .innerWrapper {
-    flex-direction: column;
+    /* flex-direction: column; */
     text-align: center;
     align-items: center;
   }
@@ -367,10 +367,18 @@ body {
   img {
     width: 80%;
   }
+  .styleScores{
+    flex-direction: column;
+  }
+
+  .outerWrapper{
+    height: 50vh;
+  }
 
   .innerWrapper {
     gap: 0;
   }
+
   .initGame span {
     display: none;
   }
